@@ -431,13 +431,7 @@ footer a:hover { color: var(--cyan); text-decoration: underline; }
 /* Настройка картинки маскота */
 
 
-#mascotRoot .mascot-avatar img {
-  width: 100% !important;
-  height: auto !important;
-  display: block !important;
-  /* Красивая тень, чтобы сливалось с темным фоном */
-  filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 20px rgba(255, 183, 3, 0.3)) !important;
-}
+
 
 #mascotRoot:hover .mascot-avatar {
   transform: scale(1.1) rotate(5deg) !important;
@@ -449,12 +443,7 @@ footer a:hover { color: var(--cyan); text-decoration: underline; }
 /* Адаптивный размер для маскота */
 
 
-#mascotRoot .mascot-avatar img {
-  width: 100% !important;
-  height: auto !important;
-  display: block !important;
-  filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 20px rgba(255, 183, 3, 0.3)) !important;
-}
+
 
 #mascotRoot:hover .mascot-avatar {
   transform: scale(1.1) rotate(5deg) !important;
