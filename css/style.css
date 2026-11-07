@@ -397,39 +397,13 @@ footer a:hover { color: var(--cyan); text-decoration: underline; }
 /* =========================================
    МАСКОТ БЕЛКА И СТРЕЛКА (ЖЕСТКИЕ СТИЛИ)
    ========================================= */
-#mascotRoot.mascot-container {
-  position: fixed !important;
-  bottom: 80px !important;
-  left: 0px !important;
-  z-index: 2147483647 !important; /* Максимальный z-index */
-  cursor: pointer !important;
-  display: block !important;
-  animation: float-mascot 3s ease-in-out infinite !important;
-}
 
 
 
 
 
-#mascotRoot .mascot-bubble {
-  position: absolute !important;
-  bottom: 100% !important;
-  left: 0 !important;
-  background: rgba(15, 23, 42, 0.95) !important;
-  border: 2px solid var(--accent) !important;
-  color: #fff !important;
-  padding: 15px !important;
-  border-radius: 15px !important;
-  width: 320px !important; /* Сделали шире для текста */
-  font-size: 0.95rem !important;
-  line-height: 1.4 !important;
-  text-align: left !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-  transition: opacity 0.3s !important;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.8) !important;
-  margin-bottom: 15px !important;
-}
+
+
 
 #mascotRoot.show-bubble .mascot-bubble {
   opacity: 1 !important;
@@ -452,25 +426,7 @@ footer a:hover { color: var(--cyan); text-decoration: underline; }
 
 
   
-  #mascotRoot .mascot-bubble {
-  position: absolute !important;
-  bottom: 100% !important;
-  left: 0 !important;
-  background: rgba(15, 23, 42, 0.95) !important;
-  border: 2px solid var(--accent) !important;
-  color: #fff !important;
-  padding: 15px !important;
-  border-radius: 15px !important;
-  width: 320px !important; /* Сделали шире для текста */
-  font-size: 0.95rem !important;
-  line-height: 1.4 !important;
-  text-align: left !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-  transition: opacity 0.3s !important;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.8) !important;
-  margin-bottom: 15px !important;
-}
+  
 }
 /* Настройка картинки маскота */
 
@@ -491,12 +447,7 @@ footer a:hover { color: var(--cyan); text-decoration: underline; }
   
 }
 /* Адаптивный размер для маскота */
-#mascotRoot .mascot-avatar {
-  display: block !important;
-  /* Размер: минимум 100px, идеально 15% от ширины экрана, максимум 250px */
-  width: clamp(250px, 40vw, 700px) !important; 
-  transition: transform 0.3s !important;
-}
+
 
 #mascotRoot .mascot-avatar img {
   width: 100% !important;
@@ -511,10 +462,7 @@ footer a:hover { color: var(--cyan); text-decoration: underline; }
 
 /* Подстраиваем позицию для мобильных, чтобы не мешал */
 @media (max-width: 900px) {
-  #mascotRoot.mascot-container { 
-    bottom: 20px !important; 
-    left: 15px !important; 
-  }
+  
 }
 #mascotRoot {
   z-index: 99999 !important;
