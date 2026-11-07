@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Мои достижения | Российская авиация и космос</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .achievements-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; max-width: 900px; margin: 40px auto; }
+    .ach-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 30px; text-align: center; opacity: 0.5; filter: grayscale(1); transition: all 0.3s; }
+    .ach-card.unlocked { opacity: 1; filter: grayscale(0); border-color: var(--accent); box-shadow: 0 10px 30px rgba(255, 183, 3, 0.15); }
+    .ach-icon { font-size: 4rem; margin-bottom: 15px; }
+    .ach-title { font-size: 1.4rem; font-weight: 800; color: var(--text); margin-bottom: 10px; font-family: 'Montserrat', sans-serif; }
+    .ach-desc { font-size: 1rem; color: var(--text-muted); }
+    .ach-status { margin-top: 15px; font-weight: bold; color: var(--text-muted); }
+    .ach-card.unlocked .ach-status { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <canvas id="star-canvas"></canvas>
+  <header>
+    <a href="../index.html" class="logo">Российская авиация и космос</a>
+    <nav>
+      <a href="../index.html">Главная</a>
+      <div class="dropdown">
+        <button class="dropbtn">Обучение ▾</button>
+        <div class="dropdown-content">
+          <a href="timeline.html">Лента времени</a>
+          <a href="heroes.html">Личности</a>
+          <a href="training.html">Подготовка</a>
+          <a href="map.html">Карта героев</a>
+          <a href="dictionary.html">Словарь</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button class="dropbtn">Игры ▾</button>
+        <div class="dropdown-content">
+          <a href="games.html">Игровая зона</a>
+          <a href="quiz.html">Квиз</a>
+          <a href="achievements.html">Достижения</a>
+          <a href="device.html">Устройство</a>
+        </div>
+      </div>
+      <a href="parents.html">О сайте</a>
+    </nav>
+  </header>
+  <main>
+    <section class="hero" style="padding: 20px 0 20px;">
+      <h1>Мои достижения</h1>
+      <p>Выполняй задания на сайте, чтобы открыть все медали!</p>
+    </section>
+    <div class="achievements-grid" id="grid"></div>
+  </main>
+  <footer><p>Учебный проект. Источники информации: <a href="https://www.roscosmos.ru/" target="_blank" rel="noopener noreferrer">Госкорпорация «Роскосмос»</a> и <a href="https://ru.ruwiki.ru/" target="_blank" rel="noopener noreferrer">Рувики</a>.</p></footer>
+  <script src="../js/stars.js"></script>
+  <script src="../js/gamification.js"></script>
+  <script>
+    const allAch = [
+      { id: 'first_step', title: 'Первый шаг', desc: 'Посетил игровую зону', icon: '🚀' },
+      { id: 'quiz_master', title: 'Знаток', desc: 'Прошёл квиз на 10/10', icon: '🏆' },
+      { id: 'ace_pilot', title: 'Ас пилотирования', desc: 'Собрал 30 звёзд в игре', icon: '⭐' },
+      { id: 'engineer', title: 'Юный конструктор', desc: 'Успешно запустил технику', icon: '🛠️' },
+      { id: 'reader', title: 'Читатель', desc: 'Прочитал 3 статьи', icon: '📚' }
+    ];
+    const unlocked = JSON.parse(localStorage.getItem('achievements') || '[]');
+    const grid = document.getElementById('grid');
+    allAch.forEach(ach => {
+      const isUnlocked = unlocked.includes(ach.id);
+      grid.innerHTML += `<div class="ach-card ${isUnlocked ? 'unlocked' : ''}"><div class="ach-icon">${ach.icon}</div><div class="ach-title">${ach.title}</div><div class="ach-desc">${ach.desc}</div><div class="ach-status">${isUnlocked ? '✅ Получено' : '🔒 Закрыто'}</div></div>`;
+    });
+  </script>
+  <button onclick="topFunction()" id="scrollToTopBtn" title="Наверх">↑</button>
+  <script>
+    window.onscroll = function() { scrollFunction() };
+    function scrollFunction() {
+      const btn = document.getElementById("scrollToTopBtn");
+      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        btn.style.display = "block";
+      } else {
+        btn.style.display = "none";
+      }
+    }
+    function topFunction() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
+  </script>
+  <script src="../js/search.js"></script>
+  <script src="../js/mascot.js"></script>
+</body>
+</html>

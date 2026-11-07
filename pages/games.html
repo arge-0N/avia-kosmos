@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Игровая зона | Российская авиация и космос</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      max-width: 1000px;
+      margin: 40px auto;
+    }
+
+    .game-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .game-card:hover {
+      transform: translateY(-10px);
+      border-color: var(--accent);
+      box-shadow: 0 15px 40px rgba(255, 183, 3, 0.2);
+    }
+
+    /* Визуальная часть карточки */
+    .game-preview {
+      height: 200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 6rem;
+      background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.3) 100%);
+      border-bottom: 2px solid var(--border);
+    }
+
+    .game-preview.arcade {
+      background: linear-gradient(135deg, #1a2347, #0b1026);
+    }
+
+    .game-preview.builder {
+      background: linear-gradient(135deg, #2c1b47, #0b1026);
+    }
+
+    .game-info {
+      padding: 30px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .game-info h3 {
+      font-size: 1.8rem;
+      color: #fff;
+      margin-top: 0;
+      margin-bottom: 15px;
+    }
+
+    .game-info p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      margin-bottom: 25px;
+      flex-grow: 1;
+    }
+
+    .game-info .btn {
+      text-align: center;
+      margin-top: auto;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="star-canvas"></canvas>
+  <header>
+    <a href="../index.html" class="logo">Российская авиация и космос</a>
+    <nav>
+      <a href="../index.html">Главная</a>
+      <div class="dropdown">
+        <button class="dropbtn">Обучение ▾</button>
+        <div class="dropdown-content">
+          <a href="timeline.html">Лента времени</a>
+          <a href="heroes.html">Личности</a>
+          <a href="training.html">Подготовка</a>
+          <a href="map.html">Карта героев</a>
+          <a href="dictionary.html">Словарь</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button class="dropbtn">Игры ▾</button>
+        <div class="dropdown-content">
+          <a href="games.html">Игровая зона</a>
+          <a href="quiz.html">Квиз</a>
+          <a href="achievements.html">Достижения</a>
+          <a href="device.html">Устройство</a>
+        </div>
+      </div>
+      <a href="parents.html">О сайте</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" style="padding: 20px 0 20px;">
+      <h1>Игровая зона</h1>
+      <p>Выбирай игру и отправляйся в приключение!</p>
+    </section>
+
+    <div class="games-grid">
+      
+      <!-- Игра 1: Космический рейс -->
+      <div class="game-card">
+        <div class="game-preview arcade">🚀</div>
+        <div class="game-info">
+          <h3>Космический рейс</h3>
+          <p>Управляй ракетой, собирай желтые звезды и уворачивайся от метеоритов! А перед стартом тебе предстоит запустить все системы корабля.</p>
+          <a href="rocket.html" class="btn">Играть</a>
+        </div>
+      </div>
+
+      <!-- Игра 2: Авиаконструктор -->
+      <div class="game-card">
+        <div class="game-preview builder">🛠️</div>
+        <div class="game-info">
+          <h3>Авиаконструктор</h3>
+          <p>Почувствуй себя инженером! Настрой мощность двигателя, объем топлива и вес груза, чтобы твоя уникальная ракета успешно взлетела.</p>
+          <a href="builder.html" class="btn">Создать</a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <p>Учебный проект. Источники информации: 
+      <a href="https://www.roscosmos.ru/" target="_blank" rel="noopener noreferrer">Госкорпорация «Роскосмос»</a> и 
+      <a href="https://ru.ruwiki.ru/" target="_blank" rel="noopener noreferrer">Рувики</a>.
+    </p>
+  </footer>
+
+  <script src="../js/stars.js"></script>
+  <script>document.addEventListener('DOMContentLoaded', () => { if(window.unlockAchievement) window.unlockAchievement('first_step'); });</script>
+  <script src="../js/gamification.js"></script>`n  <button onclick="topFunction()" id="scrollToTopBtn" title="Наверх">↑</button>
+  <script>
+    window.onscroll = function() { scrollFunction() };
+    function scrollFunction() {
+      const btn = document.getElementById("scrollToTopBtn");
+      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        btn.style.display = "block";
+      } else {
+        btn.style.display = "none";
+      }
+    }
+    function topFunction() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
+  </script>
+  <script src="../js/search.js"></script>
+  <script src="../js/mascot.js"></script>
+</body>
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Выдающиеся личности | Российская авиация и космос</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .heroes-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+      gap: 24px; 
+      padding: 20px 0; 
+    }
+    .section-title { 
+      text-align: center; 
+      margin-top: 60px; 
+      margin-bottom: 10px; 
+      font-size: 2.2rem; 
+      color: var(--accent); 
+    }
+    .section-desc { 
+      text-align: center; 
+      color: var(--text-muted); 
+      margin-bottom: 30px; 
+    }
+  </style>
+</head>
+<body>
+  <canvas id="star-canvas"></canvas>
+  
+  <header>
+    <a href="../index.html" class="logo">Российская авиация и космос</a>
+    <nav>
+      <a href="../index.html">Главная</a>
+      <div class="dropdown">
+        <button class="dropbtn">Обучение ▾</button>
+        <div class="dropdown-content">
+          <a href="timeline.html">Лента времени</a>
+          <a href="heroes.html">Личности</a>
+          <a href="training.html">Подготовка</a>
+          <a href="map.html">Карта героев</a>
+          <a href="dictionary.html">Словарь</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button class="dropbtn">Игры ▾</button>
+        <div class="dropdown-content">
+          <a href="games.html">Игровая зона</a>
+          <a href="quiz.html">Квиз</a>
+          <a href="achievements.html">Достижения</a>
+          <a href="device.html">Устройство</a>
+        </div>
+      </div>
+      <a href="parents.html">О сайте</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" style="padding: 20px 0 20px;">
+      <h1>Выдающиеся личности</h1>
+      <p>Герои, которые покорили небо и космос</p>
+    </section>
+
+    <!-- БЛОК 1: ТВОРЦЫ И КОНСТРУКТОРЫ -->
+    <h2 class="section-title">🛠️ Творцы и конструкторы</h2>
+    <p class="section-desc">Гении, создавшие авиационную и космическую технику</p>
+    
+    <div class="heroes-grid">
+      <article class="card">
+        <h3>Сергей Королёв</h3>
+        <p>Главный конструктор ракетно-космических систем, отец советской космонавтики.</p>
+        <a href="../articles/korolev.html">Читать →</a>
+      </article>
+      <article class="card">
+        <h3>Андрей Туполев</h3>
+        <p>Выдающийся авиаконструктор, создатель знаменитых самолётов марки «Ту».</p>
+        <a href="../articles/tupolev.html">Читать →</a>
+      </article>
+      <article class="card">
+        <h3>Игорь Сикорский</h3>
+        <p>Авиаконструктор, создавший первые в мире многомоторные самолёты и вертолёты.</p>
+        <a href="../articles/sikorsky.html">Читать →</a>
+      </article>
+      <article class="card">
+        <h3>Павел Сухой</h3>
+        <p>Авиаконструктор, создавший легендарные истребители и бомбардировщики марки «Су».</p>
+        <a href="../articles/sukhoi.html">Читать →</a>
+      </article>
+      <article class="card">
+        <h3>Тимур Энеев</h3>
+        <p>Ученый, один из основоположников космонавтики. Рассчитал безопасный спуск для полета Гагарина.</p>
+        <a href="../articles/eneev.html">Читать →</a>
+      </article>
+    </div>
+
+    <!-- БЛОК 2: ЛЕГЕНДЫ АВИАЦИИ -->
+    <h2 class="section-title">✈️ Легенды авиации</h2>
+    <p class="section-desc">Лётчики-испытатели, рекордсмены и герои воздушных сражений</p>
+
+    <div class="heroes-grid">
+      <article class="card">
+        <h3>Валерий Чкалов</h3>
+        <p>Легендарный лётчик-испытатель, совершивший первый беспосадочный перелёт через Северный полюс.</p>
+        <a href="../articles/chkalov.html">Читать →</a>
+      </article>
+      <article class="card">
+        <h3>Петр Нестеров</h3>
+        <p>Основоположник высшего пилотажа, впервые выполнивший «мертвую петлю».</p>
+        <a href="../articles/nesterov.html">Читать →</a>
+      </article>
+      <article class="card">
+        <h3>Александр Покрышкин</h3>
+        <p>Трижды Герой Советского Союза, один из лучших летчиков-истребителей Второй мировой.</p>
+        <a href="../articles/pokryshkin.html">Читать →</a>
+      </article>
+      <article class="card">
+        <h3>Иван Кожедуб</h3>
+        <p>Самый результативный летчик-истребитель антигитлеровской коалиции.</p>
+        <a href="../articles/kozhedub.html">Читать →</a>
+      </article>
+      <article class="card">
+        <h3>Валентина Гризодубова</h3>
+        <p>Первая женщина — Герой Советского Союза, установившая мировой рекорд по дальности полёта.</p>
+        <a href="../articles/grizodubova.html">Читать →</a>
+      </article>
+      <article class="card">
+        <h3>Владимир Коккинаки</h3>
+        <p>Легендарный лётчик-испытатель, установивший 20 мировых авиационных рекордов.</p>
+        <a href="../articles/kokkinaki.html">Читать →</a>
+      </article>
+      <article class="card">
+        <h3>Михаил Громов</h3>
+        <p>Лётчик-испытатель, совершивший легендарный перелёт через Северный полюс в США.</p>
+        <a href="../articles/gromov.html">Читать →</a>
+      </article>
+      <article class="card">
+        <h3>Марина Попович</h3>
+        <p>Легендарная лётчица-испытатель, установившая 102 мировых авиационных рекорда.</p>
+        <a href="../articles/marina_popovich.html">Читать →</a>
+      </article>
+      <article class="card">
+        <h3>Амет-хан Султан</h3>
+        <p>Дважды Герой Советского Союза, легендарный лётчик-испытатель.</p>
+        <a href="../articles/amet_khan.html">Читать →</a>
+      </article>
+      <article class="card">
+        <h3>Григорий Бахчиванджи</h3>
+        <p>Лётчик-испытатель, первым в СССР поднявший в воздух реактивный истребитель.</p>
+        <a href="../articles/bakhchivandzhi.html">Читать →</a>
+      </article>
+    </div>
+
+    <!-- БЛОК 3: ПОКОРИТЕЛИ КОСМОСА -->
+    <h2 class="section-title">🚀 Покорители космоса</h2>
+    <p class="section-desc">Космонавты, открывшие человечеству дорогу к звёздам</p>
+
+    <div class="heroes-grid">
+      <article class="card">
+        <h3>Юрий Гагарин</h3>
+        <p>Первый человек в мировой истории, совершивший полёт в космическое пространство.</p>
+        <a href="../articles/gagarin.html">Читать →</a>
+      </article>
+      <article class="card">
+        <h3>Алексей Леонов</h3>
+        <p>Первый человек, который вышел в открытый космос.</p>
+        <a href="../articles/leonov.html">Читать →</a>
+      </article>
+      <article class="card">
+        <h3>Валентина Терешкова</h3>
+        <p>Первая в мире женщина-космонавт, совершившая одиночный полёт на корабле «Восток-6».</p>
+        <a href="../articles/tereshkova.html">Читать →</a>
+      </article>
+      <article class="card">
+        <h3>Герман Титов</h3>
+        <p>Первый человек, проведший в космосе более суток. Самый молодой космонавт в истории.</p>
+        <a href="../articles/titov.html">Читать →</a>
+      </article>
+      <article class="card">
+        <h3>Светлана Савицкая</h3>
+        <p>Первая в мире женщина, вышедшая в открытый космос.</p>
+        <a href="../articles/savitskaya.html">Читать →</a>
+      </article>
+      <article class="card">
+        <h3>Владимир Комаров</h3>
+        <p>Командир первого в мире многоместного корабля и первый космонавт, побывавший на орбите дважды.</p>
+        <a href="../articles/komarov.html">Читать →</a>
+      </article>
+      <article class="card">
+        <h3>Андриян Николаев</h3>
+        <p>Участник первого в мире группового полёта двух пилотируемых кораблей.</p>
+        <a href="../articles/nikolaev.html">Читать →</a>
+      </article>
+      <article class="card">
+        <h3>Павел Попович</h3>
+        <p>Второй участник первого группового космического полёта.</p>
+        <a href="../articles/popovich.html">Читать →</a>
+      </article>
+      <article class="card">
+        <h3>Сергей Крикалёв</h3>
+        <p>Первый российский космонавт на шаттле и рекордсмен по суммарному времени в космосе (803 дня).</p>
+        <a href="../articles/krikalev.html">Читать →</a>
+      </article>
+      <article class="card">
+        <h3>Геннадий Падалка</h3>
+        <p>Абсолютный рекордсмен по суммарному времени пребывания в космосе (878 суток).</p>
+        <a href="../articles/padalka.html">Читать →</a>
+      </article>
+      <article class="card">
+        <h3>Валерий Поляков</h3>
+        <p>Совершил самый длительный полёт в истории космонавтики (437 суток).</p>
+        <a href="../articles/polyakov.html">Читать →</a>
+      </article>
+      <article class="card">
+        <h3>Елена Кондакова</h3>
+        <p>Первая женщина, совершившая длительный (почти полугодовой) полёт, и единственная россиянка на шаттле.</p>
+        <a href="../articles/kondakova.html">Читать →</a>
+      </article>
+      <article class="card">
+        <h3>Елена Серова</h3>
+        <p>Первая россиянка, работавшая на борту Международной космической станции.</p>
+        <a href="../articles/serova.html">Читать →</a>
+      </article>
+      <article class="card">
+        <h3>Георгий Добровольский</h3>
+        <p>Командир первого экипажа первой в мире орбитальной станции «Салют».</p>
+        <a href="../articles/dobrovolsky.html">Читать →</a>
+      </article>
+      <article class="card">
+        <h3>Владислав Волков</h3>
+        <p>Бортинженер первого экипажа станции «Салют» и дважды Герой Советского Союза.</p>
+        <a href="../articles/volkov.html">Читать →</a>
+      </article>
+      <article class="card">
+        <h3>Виктор Пацаев</h3>
+        <p>Первый в мире астроном, работавший за пределами земной атмосферы.</p>
+        <a href="../articles/patsaev.html">Читать →</a>
+      </article>
+      <article class="card">
+        <h3>Белка и Стрелка</h3>
+        <p>Советские собаки-космонавты, которые первыми слетали в космос и вернулись живыми.</p>
+        <a href="../articles/belka_strelka.html">Читать →</a>
+      </article>
+    </div>
+  </main>
+
+  <footer>
+    <p>Учебный проект. Источники информации: 
+      <a href="https://www.roscosmos.ru/" target="_blank" rel="noopener noreferrer">Госкорпорация «Роскосмос»</a> и 
+      <a href="https://ru.ruwiki.ru/" target="_blank" rel="noopener noreferrer">Рувики</a>.
+    </p>
+  </footer>
+
+  <button onclick="topFunction()" id="scrollToTopBtn" title="Наверх">↑</button>
+  <script src="../js/stars.js"></script>
+  <script src="../js/gamification.js"></script>
+  <script>
+    window.onscroll = function() { scrollFunction() };
+    function scrollFunction() {
+      const btn = document.getElementById("scrollToTopBtn");
+      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        btn.style.display = "block";
+      } else {
+        btn.style.display = "none";
+      }
+    }
+    function topFunction() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
+  </script>
+  <script src="../js/search.js"></script>
+  <script src="../js/mascot.js"></script>
+</body>
+</html>

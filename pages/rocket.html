@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Космический рейс | Российская космонавтика</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .game-wrapper { display: flex; flex-direction: column; align-items: center; margin: 10px auto; max-width: 900px; width: 100%; }
+    .game-header { display: flex; justify-content: space-between; width: 100%; max-width: 800px; margin-bottom: 15px; font-size: 1.4rem; font-weight: bold; color: var(--accent); }
+    .canvas-container { position: relative; width: 100%; max-width: 800px; aspect-ratio: 800 / 600; margin: 0 auto; overflow: hidden; border-radius: 16px; border: 3px solid var(--border); box-shadow: 0 15px 40px rgba(0,0,0,0.9); }
+    canvas { background: #050814; display: block; width: 100%; height: 100%; }
+    .overlay-screen { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(11, 16, 38, 0.95); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; z-index: 10; box-sizing: border-box; }
+    .overlay-screen h2 { color: var(--accent); margin: 0 0 20px 0; font-size: 38px; text-shadow: 0 0 20px rgba(255, 183, 3, 0.4); }
+    .overlay-screen p { font-size: 22px; margin: 0 0 20px 0; line-height: 1.4; color: var(--text); }
+    .overlay-screen ul { text-align: left; font-size: 20px; margin: 0 0 30px 0; padding-left: 20px; color: var(--text-muted); line-height: 1.6; }
+    .overlay-screen .btn { padding: 15px 40px !important; font-size: 22px !important; margin-top: 0 !important; }
+    .panel-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 0 0 20px 0; width: 340px; }
+    .toggle-btn { aspect-ratio: 1 / 1; background: #1e2547; border: 3px solid #33415c; border-radius: 10px; cursor: pointer; transition: all 0.2s; box-shadow: inset 0 0 15px rgba(0,0,0,0.6); }
+    .toggle-btn:active { transform: scale(0.92); }
+    .toggle-btn.active { background: #ffb703; border-color: #ffb703; box-shadow: 0 0 25px #ffb703; animation: pulse 0.8s infinite; }
+    .toggle-btn.pressed { background: #4ade80; border-color: #4ade80; box-shadow: 0 0 15px #4ade80; cursor: default; }
+    @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+    .timer { font-size: 32px; color: #ff4d4d; font-weight: bold; font-family: monospace; margin-bottom: 20px; }
+    .controls-hint { margin-top: 15px; color: var(--text-muted); text-align: center; font-size: 1.2rem; }
+  </style>
+</head>
+<body>
+  <canvas id="star-canvas"></canvas>
+  <header>
+    <a href="../index.html" class="logo">Российская авиация и космос</a>
+    <nav>
+      <a href="../index.html">Главная</a>
+      <div class="dropdown">
+        <button class="dropbtn">Обучение ▾</button>
+        <div class="dropdown-content">
+          <a href="timeline.html">Лента времени</a>
+          <a href="heroes.html">Личности</a>
+          <a href="training.html">Подготовка</a>
+          <a href="map.html">Карта героев</a>
+          <a href="dictionary.html">Словарь</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button class="dropbtn">Игры ▾</button>
+        <div class="dropdown-content">
+          <a href="games.html">Игровая зона</a>
+          <a href="quiz.html">Квиз</a>
+          <a href="achievements.html">Достижения</a>
+          <a href="device.html">Устройство</a>
+        </div>
+      </div>
+      <a href="parents.html">О сайте</a>
+    </nav>
+  </header>
+  <main>
+    <section class="hero" style="padding: 10px 0 10px;"><h1>Космический рейс</h1></section>
+    <div class="game-wrapper">
+      <div class="game-header">
+        <div>Звёзды: <span id="score">0</span></div>
+        <div>Рекорд: <span id="highscore">0</span></div>
+      </div>
+      <div class="canvas-container">
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+        <div class="overlay-screen" id="briefingScreen">
+          <h2>Брифинг миссии</h2>
+          <ul>
+            <li>🚀 Управляйте ракетой мышкой или стрелками.</li>
+            <li>⭐ Собирайте жёлтые звёзды.</li>
+            <li>☄️ Уворачивайтесь от метеоритов!</li>
+          </ul>
+          <button class="btn" onclick="showPreflight()">Принять задание</button>
+        </div>
+        <div class="overlay-screen" id="preflightScreen" style="display: none;">
+          <h2>Запуск систем</h2>
+          <p>Нажимайте на <b>мигающие</b> тумблеры по порядку!</p>
+          <div class="timer" id="timer">15.0</div>
+          <div class="panel-grid" id="panelGrid"></div>
+        </div>
+      </div>
+      <div class="controls-hint">Управление: Мышь / Стрелки</div>
+    </div>
+  </main>
+  <footer>
+    <p>Учебный проект. Источники информации: 
+      <a href="https://www.roscosmos.ru/" target="_blank" rel="noopener noreferrer">Госкорпорация «Роскосмос»</a> и 
+      <a href="https://ru.ruwiki.ru/" target="_blank" rel="noopener noreferrer">Рувики</a>.
+    </p>
+  </footer>
+  <script src="../js/stars.js"></script>
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const scoreEl = document.getElementById('score');
+    const highscoreEl = document.getElementById('highscore');
+    const briefingScreen = document.getElementById('briefingScreen');
+    const preflightScreen = document.getElementById('preflightScreen');
+    const panelGrid = document.getElementById('panelGrid');
+    const timerEl = document.getElementById('timer');
+    let isPlaying = false, score = 0, highScore = localStorage.getItem('spaceHighScore') || 0;
+    highscoreEl.innerText = highScore;
+    let sequence = [], currentStep = 0, timeLeft = 15.0, timerInterval, isPreflightActive = false;
+    function showPreflight() { briefingScreen.style.display = 'none'; preflightScreen.style.display = 'flex'; startPreflightGame(); }
+    function startPreflightGame() {
+      isPreflightActive = true; currentStep = 0; timeLeft = 15.0;
+      timerEl.innerText = timeLeft.toFixed(1); timerEl.style.color = '#ff4d4d';
+      panelGrid.innerHTML = '';
+      for (let i = 0; i < 12; i++) {
+        const btn = document.createElement('div');
+        btn.classList.add('toggle-btn'); btn.dataset.index = i;
+        btn.addEventListener('click', () => handleToggleClick(i));
+        panelGrid.appendChild(btn);
+      }
+      const allIndices = Array.from({length: 12}, (_, i) => i);
+      allIndices.sort(() => Math.random() - 0.5);
+      sequence = allIndices.slice(0, 5);
+      clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        if (!isPreflightActive) return;
+        timeLeft -= 0.1; timerEl.innerText = timeLeft.toFixed(1);
+        if (timeLeft <= 0) failPreflight();
+      }, 100);
+      highlightCurrentToggle();
+    }
+    function highlightCurrentToggle() {
+      document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+      if (currentStep < sequence.length) {
+        const targetBtn = panelGrid.querySelector(`[data-index="${sequence[currentStep]}"]`);
+        targetBtn.classList.add('active');
+      }
+    }
+    function handleToggleClick(index) {
+      if (!isPreflightActive) return;
+      const targetIndex = sequence[currentStep];
+      if (index === targetIndex) {
+        const btn = panelGrid.querySelector(`[data-index="${index}"]`);
+        btn.classList.remove('active'); btn.classList.add('pressed');
+        currentStep++;
+        if (currentStep >= sequence.length) {
+          isPreflightActive = false; clearInterval(timerInterval);
+          timerEl.innerText = "ГОТОВО"; timerEl.style.color = "#4ade80";
+          setTimeout(() => { preflightScreen.style.display = 'none'; startMainGame(); }, 1000);
+        } else { highlightCurrentToggle(); }
+      } else failPreflight();
+    }
+    function failPreflight() {
+      isPreflightActive = false; clearInterval(timerInterval);
+      timerEl.innerText = "СБОЙ"; timerEl.style.color = "#ff3333";
+      document.querySelectorAll('.toggle-btn').forEach(b => {
+        b.classList.remove('active', 'pressed');
+        b.style.background = '#4a1515'; b.style.borderColor = '#6a2d2d';
+      });
+      setTimeout(() => { startPreflightGame(); }, 1500);
+    }
+    const player = { x: canvas.width / 2, y: canvas.height - 80, width: 50, height: 60, speed: 8 };
+    let meteors = [], stars = [], bgStars = [];
+    let keys = { ArrowLeft: false, ArrowRight: false };
+    let frameCount = 0, gameSpeed = 3, spawnRate = 60, animationId;
+    function startMainGame() {
+      isPlaying = true; score = 0; scoreEl.innerText = score;
+      meteors = []; stars = []; frameCount = 0; gameSpeed = 3; spawnRate = 60; player.x = canvas.width / 2;
+      bgStars = Array.from({ length: 80 }, () => ({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, size: Math.random() * 2.5 }));
+      if (animationId) cancelAnimationFrame(animationId);
+      gameLoop();
+    }
+    window.addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') keys[e.key] = true; });
+    window.addEventListener('keyup', (e) => { if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') keys[e.key] = false; });
+    canvas.addEventListener('mousemove', (e) => {
+      if (!isPlaying) return;
+      const rect = canvas.getBoundingClientRect(), scaleX = canvas.width / rect.width;
+      player.x = (e.clientX - rect.left) * scaleX;
+    });
+    canvas.addEventListener('touchmove', (e) => {
+      if (!isPlaying) return; e.preventDefault();
+      const rect = canvas.getBoundingClientRect(), scaleX = canvas.width / rect.width;
+      player.x = (e.touches[0].clientX - rect.left) * scaleX;
+    }, { passive: false });
+    function drawPlayer() {
+      ctx.save(); ctx.translate(player.x, player.y);
+      ctx.beginPath(); ctx.moveTo(-12, 30); ctx.lineTo(0, 30 + Math.random() * 20); ctx.lineTo(12, 30); ctx.fillStyle = '#ffb703'; ctx.fill();
+      ctx.beginPath(); ctx.moveTo(0, -player.height/2); ctx.lineTo(player.width/2, player.height/2); ctx.lineTo(-player.width/2, player.height/2); ctx.closePath(); ctx.fillStyle = '#e8ecff'; ctx.fill(); ctx.strokeStyle = '#9aa4c7'; ctx.lineWidth = 2; ctx.stroke();
+      ctx.beginPath(); ctx.arc(0, -8, 8, 0, Math.PI * 2); ctx.fillStyle = '#0b1026'; ctx.fill(); ctx.strokeStyle = '#ffb703'; ctx.lineWidth = 2; ctx.stroke(); ctx.restore();
+    }
+    function update() {
+      if (!isPlaying) return; frameCount++;
+      gameSpeed = 3 + (frameCount / 600) * 0.4;
+      let currentSpawnRate = Math.max(20, spawnRate - Math.floor(frameCount / 600) * 10);
+      if (keys.ArrowLeft && player.x > player.width / 2) player.x -= player.speed;
+      if (keys.ArrowRight && player.x < canvas.width - player.width / 2) player.x += player.speed;
+      if (player.x < player.width / 2) player.x = player.width / 2;
+      if (player.x > canvas.width - player.width / 2) player.x = canvas.width - player.width / 2;
+      if (frameCount % currentSpawnRate === 0) meteors.push({ x: Math.random() * (canvas.width - 60) + 30, y: -40, radius: Math.random() * 20 + 15, speed: gameSpeed + Math.random() * 2 });
+      if (frameCount % 90 === 0) stars.push({ x: Math.random() * (canvas.width - 60) + 30, y: -30, radius: 14, speed: gameSpeed });
+      for (let i = meteors.length - 1; i >= 0; i--) {
+        let m = meteors[i]; m.y += m.speed;
+        let dx = player.x - m.x, dy = player.y - m.y;
+        if (Math.sqrt(dx*dx + dy*dy) < m.radius + player.width/3) gameOver();
+        if (m.y > canvas.height + 40) meteors.splice(i, 1);
+      }
+      for (let i = stars.length - 1; i >= 0; i--) {
+        let s = stars[i]; s.y += s.speed;
+        let dx = player.x - s.x, dy = player.y - s.y;
+        if (Math.sqrt(dx*dx + dy*dy) < s.radius + player.width/2) { stars.splice(i, 1); score++; scoreEl.innerText = score; if (score >= 30) window.unlockAchievement('ace_pilot'); }
+        if (s.y > canvas.height + 40) stars.splice(i, 1);
+      }
+    }
+    function draw() {
+      ctx.fillStyle = '#050814'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#ffffff';
+      bgStars.forEach(star => { ctx.globalAlpha = Math.random() * 0.5 + 0.3; ctx.beginPath(); ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2); ctx.fill(); });
+      ctx.globalAlpha = 1;
+      meteors.forEach(m => { ctx.beginPath(); ctx.arc(m.x, m.y, m.radius, 0, Math.PI * 2); ctx.fillStyle = '#5c5c5c'; ctx.fill(); ctx.strokeStyle = '#333'; ctx.lineWidth = 3; ctx.stroke(); });
+      stars.forEach(s => { ctx.beginPath(); ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2); ctx.fillStyle = '#ffb703'; ctx.shadowBlur = 20; ctx.shadowColor = '#ffb703'; ctx.fill(); ctx.shadowBlur = 0; });
+      drawPlayer();
+    }
+    function gameLoop() { update(); draw(); if (isPlaying) animationId = requestAnimationFrame(gameLoop); }
+    function gameOver() {
+      isPlaying = false;
+      if (score > highScore) { highScore = score; localStorage.setItem('spaceHighScore', highScore); highscoreEl.innerText = highScore; }
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.85)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#ff3333'; ctx.font = 'bold 60px sans-serif'; ctx.textAlign = 'center'; ctx.fillText('Крушение!', canvas.width/2, canvas.height/2 - 30);
+      ctx.fillStyle = '#e8ecff'; ctx.font = '30px sans-serif'; ctx.fillText(`Собрано звёзд: ${score}`, canvas.width/2, canvas.height/2 + 30);
+      briefingScreen.style.display = 'flex';
+      briefingScreen.querySelector('h2').innerText = 'Миссия провалена';
+      briefingScreen.querySelector('ul').innerHTML = `<li>Вы врезались в метеорит.</li><li>Собрано звёзд: ${score}</li>`;
+      briefingScreen.querySelector('button').innerText = 'Повторить полёт';
+    }
+  </script>
+  <script src="../js/gamification.js"></script>`n  <button onclick="topFunction()" id="scrollToTopBtn" title="Наверх">↑</button>
+  <script>
+    window.onscroll = function() { scrollFunction() };
+    function scrollFunction() {
+      const btn = document.getElementById("scrollToTopBtn");
+      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        btn.style.display = "block";
+      } else {
+        btn.style.display = "none";
+      }
+    }
+    function topFunction() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
+  </script>
+  <script src="../js/search.js"></script>
+  <script src="../js/mascot.js"></script>
+</body>
+</html>
+

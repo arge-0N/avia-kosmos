@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Техника: Ракета, Самолёт и Луноход | Российская авиация и космос</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .tabs-container { display: flex; justify-content: center; gap: 20px; margin-bottom: 30px; flex-wrap: wrap; }
+    .tab-btn { background: var(--card-bg); color: var(--text); border: 2px solid var(--border); padding: 15px 30px; font-size: 1.1rem; font-weight: 700; font-family: 'Montserrat', sans-serif; border-radius: 30px; cursor: pointer; transition: all 0.3s ease; }
+    .tab-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .tab-btn.active { background: var(--accent); color: var(--bg-dark); border-color: var(--accent); box-shadow: 0 0 20px rgba(255, 183, 3, 0.4); }
+    
+    .tech-section { display: none; animation: fadeIn 0.4s ease; }
+    .tech-section.active { display: flex; }
+    
+    .device-container { display: flex; flex-wrap: wrap; gap: 40px; max-width: 1000px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 20px; border: 1px solid var(--border); box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+    .visual-zone { flex: 1 1 300px; display: flex; justify-content: center; align-items: center; position: relative; min-height: 450px; }
+    
+    .tech-part { cursor: pointer; transition: all 0.3s ease; }
+    .tech-part.hover-glow { filter: drop-shadow(0 0 15px #ffb703) brightness(1.2); }
+    .tech-part.active { filter: drop-shadow(0 0 25px #ffb703); }
+    
+    /* Специфично для SVG */
+    .tech-part.active path, .tech-part.active circle, .tech-part.active rect, .tech-part.active ellipse {
+      fill: #ffb703 !important;
+      stroke: #fff !important;
+    }
+
+    .info-panel { flex: 1 1 400px; display: flex; flex-direction: column; justify-content: center; }
+    .info-content { display: none; animation: fadeIn 0.4s ease; }
+    .info-content.active { display: block; }
+    .info-content h2 { color: var(--accent); margin-top: 0; font-size: 2rem; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
+    .info-content .fun-fact { margin-top: 20px; padding: 15px; background: rgba(255, 183, 3, 0.1); border-left: 4px solid var(--accent); border-radius: 8px; font-size: 1rem; color: var(--text); }
+    
+    .start-hint { text-align: center; color: var(--text-muted); font-size: 1.2rem; animation: pulse-text 2s infinite; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes pulse-text { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+    
+    @media (max-width: 768px) { .device-container { padding: 20px; } .visual-zone { min-height: 300px; } .tab-btn { padding: 10px 20px; font-size: 1rem; } }
+  </style>
+</head>
+<body>
+  <canvas id="star-canvas"></canvas>
+  <header>
+    <a href="../index.html" class="logo">Российская авиация и космос</a>
+    <nav>
+      <a href="../index.html">Главная</a>
+      <div class="dropdown">
+        <button class="dropbtn">Обучение ▾</button>
+        <div class="dropdown-content">
+          <a href="timeline.html">Лента времени</a>
+          <a href="heroes.html">Личности</a>
+          <a href="training.html">Подготовка</a>
+          <a href="map.html">Карта героев</a>
+          <a href="dictionary.html">Словарь</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button class="dropbtn">Игры ▾</button>
+        <div class="dropdown-content">
+          <a href="games.html">Игровая зона</a>
+          <a href="quiz.html">Квиз</a>
+          <a href="achievements.html">Достижения</a>
+          <a href="device.html">Устройство</a>
+        </div>
+      </div>
+      <a href="parents.html">О сайте</a>
+    </nav>
+  </header>
+  
+  <main>
+    <section class="hero" style="padding: 20px 0 20px;">
+      <h1>Устройство техники</h1>
+      <p>Выбери ракету, самолёт или луноход и нажми на любую деталь, чтобы узнать о ней!</p>
+    </section>
+    
+    <div class="tabs-container">
+      <button class="tab-btn active" onclick="switchTech('rocket', this)">🚀 Ракета «Союз»</button>
+      <button class="tab-btn" onclick="switchTech('plane', this)">✈️ Пассажирский самолёт</button>
+      <button class="tab-btn" onclick="switchTech('rover', this)">🌕 Луноход</button>
+    </div>
+    
+    <!-- БЛОК 1: РАКЕТА (Без изменений) -->
+    <div class="tech-section active" id="section-rocket">
+      <div class="device-container">
+        <div class="visual-zone">
+          <svg width="250" height="500" viewBox="0 0 200 400" xmlns="http://www.w3.org/2000/svg">
+            <path class="tech-part" data-target="rocket-fairing" d="M100 10 Q130 50 130 90 L70 90 Q70 50 100 10 Z" fill="#e8ecff" stroke="#9aa4c7" stroke-width="2"/>
+            <path class="tech-part" data-target="rocket-payload" d="M70 90 L130 90 L130 140 L70 140 Z" fill="#e8ecff" stroke="#9aa4c7" stroke-width="2"/>
+            <circle class="tech-part" data-target="rocket-payload" cx="100" cy="115" r="12" fill="#0b1026" stroke="#ffb703" stroke-width="3"/>
+            <path class="tech-part" data-target="rocket-core" d="M70 140 L130 140 L130 320 L70 320 Z" fill="#e8ecff" stroke="#9aa4c7" stroke-width="2"/>
+            <line x1="100" y1="140" x2="100" y2="320" stroke="#9aa4c7" stroke-width="2" stroke-dasharray="5,5"/>
+            <path class="tech-part" data-target="rocket-boosters" d="M40 160 L40 300 L70 300 L70 160 Q55 140 40 160 Z" fill="#c0c8e0" stroke="#9aa4c7" stroke-width="2"/>
+            <path class="tech-part" data-target="rocket-boosters" d="M160 160 L160 300 L130 300 L130 160 Q145 140 160 160 Z" fill="#c0c8e0" stroke="#9aa4c7" stroke-width="2"/>
+            <path class="tech-part" data-target="rocket-engines" d="M80 320 L85 360 L115 360 L120 320 Z" fill="#333" stroke="#111" stroke-width="2"/>
+            <path class="tech-part" data-target="rocket-engines" d="M45 300 L50 330 L65 330 L70 300 Z" fill="#333" stroke="#111" stroke-width="2"/>
+            <path class="tech-part" data-target="rocket-engines" d="M130 300 L135 330 L150 330 L155 300 Z" fill="#333" stroke="#111" stroke-width="2"/>
+            <path d="M85 360 L90 390 L110 390 L115 360 Z" fill="#ffb703" opacity="0.6"/>
+          </svg>
+        </div>
+        <div class="info-panel">
+          <div class="start-hint" id="hint-rocket">👈 Наведи и нажми на детали ракеты</div>
+          <div class="info-content" id="info-rocket-fairing"><h2>Головной обтекатель</h2><p>Остроконечный «колпак» на самом верху. Он защищает космический корабль от ветра и перегрева при взлете.</p><div class="fun-fact">💡 В космосе обтекатель сбрасывают — он сгорает в атмосфере.</div></div>
+          <div class="info-content" id="info-rocket-payload"><h2>Космический корабль / Спутник</h2><p>Самая ценная часть. Спутник связи, научный аппарат или корабль с космонавтами, ради которого запускают ракету.</p><div class="fun-fact">💡 В корабле «Восток» было настолько тесно, что космонавт не мог вытянуть ноги.</div></div>
+          <div class="info-content" id="info-rocket-core"><h2>Центральный блок</h2><p>Основа ракеты. Внутри баки с топливом (керосином) и окислителем (кислородом).</p><div class="fun-fact">💡 Это вторая ступень ракеты, которая работает после отделения ускорителей.</div></div>
+          <div class="info-content" id="info-rocket-boosters"><h2>Боковые ускорители</h2><p>Четыре «карандаша» по бокам. Дают самую мощную тягу при старте.</p><div class="fun-fact">💡 Работают всего 118 секунд, затем их отстреливают.</div></div>
+          <div class="info-content" id="info-rocket-engines"><h2>Двигатели</h2><p>Сопла, из которых вырывается реактивная струя. У «Союза» их 5.</p><div class="fun-fact">💡 Суммарная мощность при старте — около 20 миллионов лошадиных сил!</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- БЛОК 2: САМОЛЁТ (Без изменений) -->
+    <div class="tech-section" id="section-plane">
+      <div class="device-container">
+        <div class="visual-zone">
+          <svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+            <path class="tech-part" data-target="plane-fuselage" d="M180 50 L220 50 L220 360 L180 360 Z" fill="#e8ecff" stroke="#9aa4c7" stroke-width="2"/>
+            <path class="tech-part" data-target="plane-cockpit" d="M180 50 L200 10 L220 50 Z" fill="#e8ecff" stroke="#9aa4c7" stroke-width="2"/>
+            <path class="tech-part" data-target="plane-cockpit" d="M190 40 L200 20 L210 40 Z" fill="#0b1026" stroke="#ffb703" stroke-width="1"/>
+            <path class="tech-part" data-target="plane-wings" d="M180 180 L60 260 L60 280 L180 220 Z" fill="#c0c8e0" stroke="#9aa4c7" stroke-width="2"/>
+            <path class="tech-part" data-target="plane-wings" d="M220 180 L340 260 L340 280 L220 220 Z" fill="#c0c8e0" stroke="#9aa4c7" stroke-width="2"/>
+            <path class="tech-part" data-target="plane-engines" d="M80 245 L110 230 L115 240 L85 255 Z" fill="#333" stroke="#111" stroke-width="2"/>
+            <path class="tech-part" data-target="plane-engines" d="M320 245 L290 230 L285 240 L315 255 Z" fill="#333" stroke="#111" stroke-width="2"/>
+            <path class="tech-part" data-target="plane-tail" d="M180 330 L130 360 L140 370 L180 345 Z" fill="#c0c8e0" stroke="#9aa4c7" stroke-width="2"/>
+            <path class="tech-part" data-target="plane-tail" d="M220 330 L270 360 L260 370 L220 345 Z" fill="#c0c8e0" stroke="#9aa4c7" stroke-width="2"/>
+            <line class="tech-part" data-target="plane-tail" x1="200" y1="330" x2="200" y2="380" stroke="#9aa4c7" stroke-width="6" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="info-panel">
+          <div class="start-hint" id="hint-plane">👈 Наведи и нажми на детали самолёта</div>
+          <div class="info-content" id="info-plane-cockpit"><h2>Кабина пилотов</h2><p>Носовая часть, где сидят лётчики. Отсюда они управляют самолётом.</p><div class="fun-fact">💡 В самолёте МС-21 кабина полностью «стеклянная» — вместо стрелок экраны.</div></div>
+          <div class="info-content" id="info-plane-fuselage"><h2>Фюзеляж</h2><p>Основное «тело». Внутри — кресла, багажные полки, кухня и топливные баки.</p><div class="fun-fact">💡 В фюзеляже создаётся давление, чтобы мы дышали как на земле.</div></div>
+          <div class="info-content" id="info-plane-wings"><h2>Крылья</h2><p>Создают подъёмную силу. Воздух над крылом движется быстрее, и самолёт «всасывается» вверх.</p><div class="fun-fact">💡 На концах крыльев ставят винглеты для экономии топлива.</div></div>
+          <div class="info-content" id="info-plane-engines"><h2>Двигатели</h2><p>Турбореактивные моторы, которые засасывают воздух, сжигают керосин и толкают самолёт вперёд.</p><div class="fun-fact">💡 Двигатели крепятся на пилонах под крыльями.</div></div>
+          <div class="info-content" id="info-plane-tail"><h2>Хвостовое оперение</h2><p>Рули, которые не дают самолёту крутиться и помогают набирать высоту.</p><div class="fun-fact">💡 На киле обычно красуется логотип авиакомпании.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- БЛОК 3: ЛУНОХОД (МАКСИМАЛЬНО ДЕТАЛЬНЫЙ) -->
+    <div class="tech-section" id="section-rover">
+      <div class="device-container">
+        <div class="visual-zone" style="min-height: 500px;">
+          <svg width="100%" height="500" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg" style="max-width: 100%; height: auto;">
+            
+            <defs>
+              <!-- Градиент корпуса (металл) -->
+              <linearGradient id="body-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#5a668a"/>
+                <stop offset="30%" stop-color="#d1d5db"/>
+                <stop offset="70%" stop-color="#9aa4c7"/>
+                <stop offset="100%" stop-color="#4a5578"/>
+              </linearGradient>
+              <!-- Градиент для солнечной панели -->
+              <linearGradient id="panel-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#1e3a8a"/>
+                <stop offset="100%" stop-color="#0f172a"/>
+              </linearGradient>
+              <!-- Градиент для колес -->
+              <radialGradient id="wheel-grad" cx="50%" cy="50%" r="50%">
+                <stop offset="80%" stop-color="#222"/>
+                <stop offset="100%" stop-color="#111"/>
+              </radialGradient>
+              <radialGradient id="hub-grad" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#e8ecff"/>
+                <stop offset="100%" stop-color="#888"/>
+              </radialGradient>
+            </defs>
+
+            <!-- Тень -->
+            <ellipse cx="400" cy="540" rx="300" ry="25" fill="rgba(0,0,0,0.6)"/>
+
+            <!-- 1. КОЛЕСА И ПОДВЕСКА -->
+            <g id="rover-wheels-group" class="tech-part" data-target="rover-wheels">
+              <!-- Рычаги подвески -->
+              <!-- Колесо 1 -->
+              <line x1="200" y1="380" x2="160" y2="480" stroke="#666" stroke-width="8" stroke-linecap="round"/>
+              <line x1="240" y1="400" x2="160" y2="480" stroke="#888" stroke-width="6" stroke-linecap="round"/>
+              <!-- Колесо 2 -->
+              <line x1="320" y1="400" x2="300" y2="480" stroke="#666" stroke-width="8" stroke-linecap="round"/>
+              <line x1="360" y1="400" x2="300" y2="480" stroke="#888" stroke-width="6" stroke-linecap="round"/>
+              <!-- Колесо 3 -->
+              <line x1="440" y1="400" x2="460" y2="480" stroke="#666" stroke-width="8" stroke-linecap="round"/>
+              <line x1="480" y1="380" x2="460" y2="480" stroke="#888" stroke-width="6" stroke-linecap="round"/>
+              <!-- Колесо 4 -->
+              <line x1="560" y1="380" x2="600" y2="480" stroke="#666" stroke-width="8" stroke-linecap="round"/>
+              <line x1="600" y1="400" x2="600" y2="480" stroke="#888" stroke-width="6" stroke-linecap="round"/>
+
+              <!-- Сами колеса (4 шт) -->
+              <!-- Колесо 1 -->
+              <g transform="translate(160, 480)">
+                <circle r="55" fill="url(#wheel-grad)" stroke="#333" stroke-width="4"/>
+                <circle r="45" fill="none" stroke="#555" stroke-width="8" stroke-dasharray="4 4"/> <!-- Сетка -->
+                <circle r="40" fill="none" stroke="#777" stroke-width="2"/>
+                <circle r="15" fill="url(#hub-grad)" stroke="#333" stroke-width="3"/>
+                <circle r="5" fill="#111"/>
+                <!-- Спицы -->
+                <path d="M 0 -40 L 0 40 M -40 0 L 40 0 M -28 -28 L 28 28 M -28 28 L 28 -28" stroke="#888" stroke-width="2"/>
+              </g>
+              <!-- Колесо 2 -->
+              <g transform="translate(300, 480)">
+                <circle r="55" fill="url(#wheel-grad)" stroke="#333" stroke-width="4"/>
+                <circle r="45" fill="none" stroke="#555" stroke-width="8" stroke-dasharray="4 4"/>
+                <circle r="40" fill="none" stroke="#777" stroke-width="2"/>
+                <circle r="15" fill="url(#hub-grad)" stroke="#333" stroke-width="3"/>
+                <circle r="5" fill="#111"/>
+                <path d="M 0 -40 L 0 40 M -40 0 L 40 0 M -28 -28 L 28 28 M -28 28 L 28 -28" stroke="#888" stroke-width="2"/>
+              </g>
+              <!-- Колесо 3 -->
+              <g transform="translate(460, 480)">
+                <circle r="55" fill="url(#wheel-grad)" stroke="#333" stroke-width="4"/>
+                <circle r="45" fill="none" stroke="#555" stroke-width="8" stroke-dasharray="4 4"/>
+                <circle r="40" fill="none" stroke="#777" stroke-width="2"/>
+                <circle r="15" fill="url(#hub-grad)" stroke="#333" stroke-width="3"/>
+                <circle r="5" fill="#111"/>
+                <path d="M 0 -40 L 0 40 M -40 0 L 40 0 M -28 -28 L 28 28 M -28 28 L 28 -28" stroke="#888" stroke-width="2"/>
+              </g>
+              <!-- Колесо 4 -->
+              <g transform="translate(600, 480)">
+                <circle r="55" fill="url(#wheel-grad)" stroke="#333" stroke-width="4"/>
+                <circle r="45" fill="none" stroke="#555" stroke-width="8" stroke-dasharray="4 4"/>
+                <circle r="40" fill="none" stroke="#777" stroke-width="2"/>
+                <circle r="15" fill="url(#hub-grad)" stroke="#333" stroke-width="3"/>
+                <circle r="5" fill="#111"/>
+                <path d="M 0 -40 L 0 40 M -40 0 L 40 0 M -28 -28 L 28 28 M -28 28 L 28 -28" stroke="#888" stroke-width="2"/>
+              </g>
+            </g>
+
+            <!-- 2. КОРПУС (Ведро) -->
+            <g class="tech-part" data-target="rover-body">
+              <!-- Основной конус -->
+              <path d="M 260 200 L 540 200 L 620 400 L 180 400 Z" fill="url(#body-grad)" stroke="#333" stroke-width="4"/>
+              <!-- Верхняя крышка -->
+              <ellipse cx="400" cy="200" rx="140" ry="25" fill="#d1d5db" stroke="#333" stroke-width="4"/>
+              <!-- Рёбра жёсткости -->
+              <line x1="300" y1="200" x2="250" y2="400" stroke="#555" stroke-width="2"/>
+              <line x1="350" y1="200" x2="320" y2="400" stroke="#555" stroke-width="2"/>
+              <line x1="450" y1="200" x2="480" y2="400" stroke="#555" stroke-width="2"/>
+              <line x1="500" y1="200" x2="550" y2="400" stroke="#555" stroke-width="2"/>
+              <!-- Детали на корпусе (люки, датчики) -->
+              <rect x="400" y="280" width="40" height="50" rx="5" fill="#222" stroke="#555" stroke-width="2"/>
+              <circle cx="420" cy="305" r="8" fill="#ffb703"/>
+              <rect x="330" y="320" width="30" height="20" rx="3" fill="#444" stroke="#555" stroke-width="2"/>
+              <line x1="250" y1="350" x2="550" y2="350" stroke="#666" stroke-width="3"/> <!-- Поясок -->
+            </g>
+
+            <!-- 3. СОЛНЕЧНАЯ БАТАРЕЯ (Справа) -->
+            <g class="tech-part" data-target="rover-panel">
+              <!-- Крепление -->
+              <rect x="520" y="180" width="30" height="20" fill="#333" transform="rotate(-30 535 190)"/>
+              <!-- Панель -->
+              <polygon points="550,190 780,60 800,90 570,220" fill="url(#panel-grad)" stroke="#3b82f6" stroke-width="3"/>
+              <!-- Сетка -->
+              <line x1="580" y1="180" x2="620" y2="210" stroke="#60a5fa" stroke-width="1"/>
+              <line x1="620" y1="160" x2="660" y2="190" stroke="#60a5fa" stroke-width="1"/>
+              <line x1="660" y1="140" x2="700" y2="170" stroke="#60a5fa" stroke-width="1"/>
+              <line x1="700" y1="120" x2="740" y2="150" stroke="#60a5fa" stroke-width="1"/>
+              <line x1="740" y1="100" x2="780" y2="130" stroke="#60a5fa" stroke-width="1"/>
+            </g>
+
+            <!-- 4. АНТЕННА (Слева) -->
+            <g class="tech-part" data-target="rover-sensors">
+              <!-- Штанга -->
+              <line x1="260" y1="280" x2="100" y2="150" stroke="#888" stroke-width="8" stroke-linecap="round"/>
+              <line x1="260" y1="280" x2="100" y2="150" stroke="#ccc" stroke-width="4" stroke-linecap="round"/>
+              <!-- Тарелка -->
+              <ellipse cx="80" cy="130" rx="30" ry="50" transform="rotate(-45 80 130)" fill="#e8ecff" stroke="#555" stroke-width="3"/>
+              <ellipse cx="80" cy="130" rx="20" ry="40" transform="rotate(-45 80 130)" fill="none" stroke="#9aa4c7" stroke-width="1"/>
+              <!-- Датчик на тарелке -->
+              <circle cx="100" cy="110" r="8" fill="#ffb703" stroke="#555" stroke-width="2"/>
+              <!-- Мелкие антенны на крыше -->
+              <line x1="350" y1="180" x2="350" y2="120" stroke="#888" stroke-width="3"/>
+              <circle cx="350" cy="120" r="5" fill="#ffb703"/>
+              <line x1="450" y1="180" x2="480" y2="130" stroke="#888" stroke-width="3"/>
+              <circle cx="480" cy="130" r="5" fill="#ffb703"/>
+            </g>
+
+          </svg>
+        </div>
+        <div class="info-panel">
+          <div class="start-hint" id="hint-rover">👈 Наведи и нажми на детали лунохода</div>
+          
+          <div class="info-content" id="info-rover-panel">
+            <h2>Солнечная батарея</h2>
+            <p>Огромная откидная крышка. Днём она раскрывается и заряжает аккумуляторы от солнца, а ночью закрывается, чтобы сохранить тепло внутри.</p>
+            <div class="fun-fact">💡 Именно благодаря этой крышке луноход мог пережить лунную ночь, когда температура падает до -170°C.</div>
+          </div>
+          
+          <div class="info-content" id="info-rover-body">
+            <h2>Герметичный корпус</h2>
+            <p>Главная «кастрюля» лунохода. Внутри находятся приборы, управляющая электроника и запасы воздуха, чтобы техника не перегрелась и не замерзла.</p>
+            <div class="fun-fact">💡 Внутри корпуса поддерживалось давление, как в обычной комнате, для защиты приборов.</div>
+          </div>
+          
+          <div class="info-content" id="info-rover-wheels">
+            <h2>Колёса и подвеска</h2>
+            <p>У лунохода целых 8 колёс (на схеме видно 4 с одной стороны). Каждое имеет свой электромотор. Специальная сетка на колёсах помогала не застрять в лунной пыли.</p>
+            <div class="fun-fact">💡 Колёса могли вращаться независимо друг от друга, благодаря чему луноход разворачивался на месте.</div>
+          </div>
+          
+          <div class="info-content" id="info-rover-sensors">
+            <h2>Антенны и датчики</h2>
+            <p>Глаза и уши лунохода. Здесь расположены остронаправленная антенна для связи с Землей, телекамеры и различные датчики для изучения лунного грунта.</p>
+            <div class="fun-fact">💡 С помощью этих камер луноход передал на Землю более 20 000 снимков лунной поверхности!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+  
+  <footer>
+    <p>Учебный проект. Источники информации: 
+      <a href="https://www.roscosmos.ru/" target="_blank" rel="noopener noreferrer">Госкорпорация «Роскосмос»</a> и 
+      <a href="https://ru.ruwiki.ru/" target="_blank" rel="noopener noreferrer">Рувики</a>.
+    </p>
+  </footer>
+  
+  <script src="../js/stars.js"></script>
+  <script>
+    function switchTech(type, btn) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.tech-section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById('section-' + type).classList.add('active');
+      
+      document.querySelectorAll('.tech-part').forEach(p => p.classList.remove('active', 'hover-glow'));
+      document.querySelectorAll('.info-content').forEach(c => c.classList.remove('active'));
+      document.querySelectorAll('.start-hint').forEach(h => h.style.display = 'block');
+    }
+    
+    const parts = document.querySelectorAll('.tech-part');
+    const contents = document.querySelectorAll('.info-content');
+    
+    parts.forEach(part => {
+      part.addEventListener('mouseover', function() {
+        const targetType = this.getAttribute('data-target');
+        document.querySelectorAll(`.tech-part[data-target="${targetType}"]`).forEach(p => p.classList.add('hover-glow'));
+      });
+      part.addEventListener('mouseout', function() {
+        const targetType = this.getAttribute('data-target');
+        document.querySelectorAll(`.tech-part[data-target="${targetType}"]`).forEach(p => p.classList.remove('hover-glow'));
+      });
+      part.addEventListener('click', function() {
+        const targetType = this.getAttribute('data-target');
+        parts.forEach(p => p.classList.remove('active'));
+        document.querySelectorAll(`.tech-part[data-target="${targetType}"]`).forEach(p => p.classList.add('active'));
+        document.querySelectorAll('.start-hint').forEach(h => h.style.display = 'none');
+        contents.forEach(c => c.classList.remove('active'));
+        document.getElementById('info-' + targetType).classList.add('active');
+      });
+    });
+  </script>
+  <script src="../js/gamification.js"></script>`n  <button onclick="topFunction()" id="scrollToTopBtn" title="Наверх">↑</button>
+  <script>
+    window.onscroll = function() { scrollFunction() };
+    function scrollFunction() {
+      const btn = document.getElementById("scrollToTopBtn");
+      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        btn.style.display = "block";
+      } else {
+        btn.style.display = "none";
+      }
+    }
+    function topFunction() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
+  </script>
+  <script src="../js/search.js"></script>
+  <style>
+    @keyframes vibrate { 0% { transform: translate(0, 0); } 25% { transform: translate(2px, -2px); } 50% { transform: translate(-2px, 2px); } 75% { transform: translate(2px, 2px); } 100% { transform: translate(0, 0); } }
+    .rover-vibrate { animation: vibrate 0.1s infinite; }
+    
+    @keyframes dust-fly { 
+      0% { opacity: 1; transform: translate(0, 0) scale(1); } 
+      100% { opacity: 0; transform: translate(var(--x), var(--y)) scale(0.5); } 
+    }
+    .dust-particle { position: absolute; width: 10px; height: 10px; background: #888; border-radius: 50%; pointer-events: none; z-index: 100; animation: dust-fly 0.8s ease-out forwards; }
+  </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const wheels = document.getElementById('rover-wheels-group');
+      if (wheels) {
+        wheels.style.cursor = 'pointer';
+        wheels.addEventListener('click', (e) => {
+          // Эффект вибрации
+          wheels.classList.add('rover-vibrate');
+          setTimeout(() => wheels.classList.remove('rover-vibrate'), 1000);
+          
+          // Эффект пыли
+          const rect = wheels.getBoundingClientRect();
+          const container = document.querySelector('.visual-zone');
+          const cRect = container.getBoundingClientRect();
+          
+          for (let i = 0; i < 15; i++) {
+            const dust = document.createElement('div');
+            dust.className = 'dust-particle';
+            dust.style.left = (rect.left - cRect.left + rect.width/2) + 'px';
+            dust.style.top = (rect.top - cRect.top + rect.height) + 'px';
+            dust.style.setProperty('--x', (Math.random() - 0.5) * 100 + 'px');
+            dust.style.setProperty('--y', (Math.random() * -50 - 20) + 'px');
+            container.appendChild(dust);
+            setTimeout(() => dust.remove(), 800);
+          }
+        });
+      }
+    });
+  </script>
+  <script src="../js/mascot.js"></script>
+</body>
+</html>

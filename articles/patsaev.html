@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Виктор Пацаев | Российская космонавтика</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <canvas id="star-canvas"></canvas>
+  <header>
+    <a href="../index.html" class="logo">← На главную</a>
+    <nav>
+      <a href="../index.html">Главная</a>
+      <div class="dropdown">
+        <button class="dropbtn">Обучение ▾</button>
+        <div class="dropdown-content">
+          <a href="../pages/timeline.html">Лента времени</a>
+          <a href="../pages/heroes.html">Личности</a>
+          <a href="../pages/training.html">Подготовка</a>
+          <a href="../pages/map.html">Карта героев</a>
+          <a href="../pages/dictionary.html">Словарь</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button class="dropbtn">Игры ▾</button>
+        <div class="dropdown-content">
+          <a href="../pages/games.html">Игровая зона</a>
+          <a href="../pages/quiz.html">Квиз</a>
+          <a href="../pages/achievements.html">Достижения</a>
+          <a href="../pages/device.html">Устройство</a>
+        </div>
+      </div>
+      <a href="../pages/parents.html">О сайте</a>
+    </nav>
+  </header>
+  <main>
+    <article style="max-width: 900px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 20px; border: 1px solid var(--border); backdrop-filter: blur(10px);">
+      <h1>Виктор Пацаев</h1>
+      <p style="color: var(--accent); font-size: 1.2rem; font-weight: 500;">Первый в мире астроном, работавший за пределами земной атмосферы.</p>
+      <img src="../img/patsaev.jpg" alt="Виктор Пацаев" style="display: block; max-width: 100%; max-height: 600px; width: auto; height: auto; margin: 30px auto; border-radius: 12px; border: 1px solid var(--border);">
+      <h2>Астроном на орбите</h2><p>Виктор Пацаев был инженером-исследователем и астрономом. В 1971 году он вошел в состав экипажа «Союза-11». На борту станции «Салют-1» он проводил уникальные астрономические наблюдения, став первым ученым-астрономом в космосе.</p><h2>Трагедия «Союза-11»</h2><p>Жизнь Пацаева трагически оборвалась при возвращении на Землю из-за разгерметизации спускаемого аппарата. За свой подвиг он был посмертно удостоен звания Героя Советского Союза.</p>
+      <div style="background: rgba(255, 183, 3, 0.1); padding: 24px; border-left: 4px solid var(--accent); border-radius: 8px; margin-top: 40px;">
+        <h3 style="margin-top: 0; color: var(--accent);">А ты знал?</h3>
+        <p style="margin-bottom: 0;">Именем Виктора Пацаева назван кратер на обратной стороне Луны.</p>
+      </div>
+    </article>
+  </main>
+  <footer>
+    <p>Учебный проект. Источники информации: <a href="https://www.roscosmos.ru/" target="_blank" rel="noopener noreferrer">Госкорпорация «Роскосмос»</a> и <a href="https://ru.ruwiki.ru/" target="_blank" rel="noopener noreferrer">Рувики</a>.</p>
+  </footer>
+  <script src="../js/stars.js"></script>
+  <script src="../js/gamification.js"></script>`n  <button onclick="topFunction()" id="scrollToTopBtn" title="Наверх">↑</button>
+  <script>
+    window.onscroll = function() { scrollFunction() };
+    function scrollFunction() {
+      const btn = document.getElementById("scrollToTopBtn");
+      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        btn.style.display = "block";
+      } else {
+        btn.style.display = "none";
+      }
+    }
+    function topFunction() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
+  </script>
+  <script src="../js/search.js"></script>
+  <script src="../js/mascot.js"></script>
+</body>
+</html>

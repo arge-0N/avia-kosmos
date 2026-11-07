@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Как готовят космонавтов | Российская авиация и космос</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .training-container { max-width: 900px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 20px; border: 1px solid var(--border); backdrop-filter: blur(10px); }
+    .training-container h2 { color: var(--accent); margin-top: 40px; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
+    .training-container ul { padding-left: 20px; }
+    .training-container li { margin-bottom: 15px; font-size: 1.1rem; }
+    .highlight-box { background: rgba(0, 240, 255, 0.1); border-left: 4px solid var(--cyan); padding: 20px; border-radius: 8px; margin: 20px 0; }
+  </style>
+</head>
+<body>
+  <canvas id="star-canvas"></canvas>
+  <header>
+    <a href="../index.html" class="logo">Российская авиация и космос</a>
+    <nav>
+      <a href="../index.html">Главная</a>
+      <div class="dropdown">
+        <button class="dropbtn">Обучение ▾</button>
+        <div class="dropdown-content">
+          <a href="timeline.html">Лента времени</a>
+          <a href="heroes.html">Личности</a>
+          <a href="training.html">Подготовка</a>
+          <a href="map.html">Карта героев</a>
+          <a href="dictionary.html">Словарь</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button class="dropbtn">Игры ▾</button>
+        <div class="dropdown-content">
+          <a href="games.html">Игровая зона</a>
+          <a href="quiz.html">Квиз</a>
+          <a href="achievements.html">Достижения</a>
+          <a href="device.html">Устройство</a>
+        </div>
+      </div>
+      <a href="parents.html">О сайте</a>
+    </nav>
+  </header>
+  <main>
+    <section class="hero" style="padding: 20px 0 40px;">
+      <h1>Подготовка космонавтов и лётчиков</h1>
+      <p>Путь в космос начинается с тяжелых тренировок на Земле</p>
+    </section>
+    <div class="training-container">
+      <p>Стать космонавтом или военным лётчиком непросто. Это требует идеального здоровья, железной выдержки и огромных знаний. Вот через что проходят будущие герои:</p>
+      <h2>1. Центрифуга (Испытание перегрузками)</h2>
+      <p>Космонавтов раскручивают на огромной центрифуге. При старте и спуске ракеты их вес увеличивается в несколько раз. Тренировки позволяют привыкнуть к тому, что невозможно поднять руку или сделать вдох.</p>
+      <div class="highlight-box"><strong>А ты знал?</strong> Во время тренировок на центрифуге космонавт должен уметь не терять сознание, выполняя при этом сложные математические задачи в уме.</div>
+      <h2>2. Барокамера и сурдокамера</h2>
+      <ul>
+        <li><strong>Барокамера:</strong> проверка на высотную устойчивость. Организм проверяют на нехватку кислорода.</li>
+        <li><strong>Сурдокамера:</strong> одиночество. Космонавта запирают в крошечной комнате без звуков на несколько дней, чтобы проверить его психику.</li>
+      </ul>
+      <h2>3. Невесомость на самолете</h2>
+      <p>Самолет-лаборатория (Ил-76) поднимается высоко в небо и резко падает вниз по параболе. В этот момент внутри наступает невесомость на 25-30 секунд. За один полет таких «провалов» может быть более 20.</p>
+      <h2>4. Парашютная подготовка</h2>
+      <p>Прыжки с парашютом учат будущих космонавтов управлять своим телом в свободном падении и правильно приземляться.</p>
+    </div>
+  </main>
+  <footer><p>Учебный проект. Источники информации: <a href="https://www.roscosmos.ru/" target="_blank">Роскосмос</a> и <a href="https://ru.ruwiki.ru/" target="_blank">Рувики</a>.</p></footer>
+  <script src="../js/stars.js"></script>
+  <script src="../js/gamification.js"></script>
+  <button onclick="topFunction()" id="scrollToTopBtn" title="Наверх">↑</button>
+  <script>
+    window.onscroll = function() { scrollFunction() };
+    function scrollFunction() {
+      const btn = document.getElementById("scrollToTopBtn");
+      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        btn.style.display = "block";
+      } else {
+        btn.style.display = "none";
+      }
+    }
+    function topFunction() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
+  </script>
+  <script src="../js/search.js"></script>
+  <script src="../js/mascot.js"></script>
+</body>
+</html>

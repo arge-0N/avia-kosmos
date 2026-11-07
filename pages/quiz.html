@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Космический квиз | Российская авиация и космос</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .quiz-wrapper { max-width: 700px; margin: 40px auto; background: var(--card-bg); padding: 40px; border-radius: 20px; border: 1px solid var(--border); box-shadow: 0 15px 50px rgba(0,0,0,0.5); position: relative; overflow: hidden; }
+    .quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 1.2rem; font-weight: bold; }
+    
+    .header-left { display: flex; align-items: center; gap: 15px; }
+    .timer-box { background: rgba(255, 51, 51, 0.2); color: #ff4d4d; padding: 8px 20px; border-radius: 20px; border: 1px solid #ff4d4d; font-family: monospace; font-size: 1.3rem; transition: color 0.3s; }
+    .streak-box { color: #ff8c00; font-size: 1.2rem; display: none; text-shadow: 0 0 10px rgba(255, 140, 0, 0.5); animation: pulse 1s infinite; }
+    
+    .progress-bar-bg { width: 100%; height: 10px; background: var(--bg-dark); border-radius: 5px; margin-bottom: 30px; overflow: hidden; }
+    .progress-bar-fill { height: 100%; width: 0%; background: var(--accent); border-radius: 5px; transition: width 0.3s ease; box-shadow: 0 0 10px var(--accent); }
+    
+    .question-text { font-size: 1.6rem; font-weight: 700; margin-bottom: 30px; line-height: 1.4; color: #fff; min-height: 90px; }
+    .options { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
+    
+    .option-btn { background: var(--bg-dark); color: var(--text); border: 2px solid var(--border); padding: 18px 24px; border-radius: 12px; font-size: 1.2rem; text-align: left; cursor: pointer; transition: all 0.2s; font-weight: 500; display: flex; justify-content: space-between; }
+    .option-btn:hover:not(:disabled) { border-color: var(--accent); background: rgba(255, 183, 3, 0.1); transform: translateX(5px); }
+    .option-btn:disabled { cursor: not-allowed; opacity: 0.6; }
+    .option-btn.correct { background: #1b4332; border-color: #2d6a4f; color: #95d5b2; opacity: 1; }
+    .option-btn.wrong { background: #4a1515; border-color: #6a2d2d; color: #f8adad; opacity: 1; }
+    .option-btn.hidden-option { opacity: 0.1; pointer-events: none; }
+    
+    .explanation { background: rgba(255, 183, 3, 0.1); border-left: 4px solid var(--accent); padding: 20px; border-radius: 8px; font-size: 1.1rem; color: var(--text); display: none; animation: fadeIn 0.4s ease; }
+    
+    .lifeline-btn { background: var(--bg-dark); color: var(--cyan); border: 2px solid var(--cyan); border-radius: 20px; padding: 8px 16px; font-weight: bold; cursor: pointer; transition: all 0.3s; font-family: 'Montserrat', sans-serif; }
+    .lifeline-btn:hover:not(:disabled) { background: var(--cyan); color: var(--bg-dark); box-shadow: 0 0 15px var(--cyan); }
+    .lifeline-btn:disabled { opacity: 0.3; cursor: not-allowed; border-color: gray; color: gray; }
+
+    .result-screen { display: none; text-align: center; animation: fadeIn 0.5s ease; position: relative; z-index: 2; }
+    .result-screen h2 { font-size: 2.5rem; color: var(--accent); margin-top: 0; }
+    .result-rank { font-size: 1.8rem; color: #fff; margin-bottom: 15px; font-weight: bold; text-shadow: 0 0 15px rgba(255,255,255,0.5); }
+    .result-score { font-size: 1.3rem; margin-bottom: 15px; color: var(--text-muted); }
+    .result-highscore { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 30px; }
+    
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+
+    #confetti-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+  </style>
+</head>
+<body>
+  <canvas id="star-canvas"></canvas>
+  <header>
+    <a href="../index.html" class="logo">Российская авиация и космос</a>
+    <nav>
+      <a href="../index.html">Главная</a>
+      <div class="dropdown">
+        <button class="dropbtn">Обучение ▾</button>
+        <div class="dropdown-content">
+          <a href="timeline.html">Лента времени</a>
+          <a href="heroes.html">Личности</a>
+          <a href="training.html">Подготовка</a>
+          <a href="map.html">Карта героев</a>
+          <a href="dictionary.html">Словарь</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button class="dropbtn">Игры ▾</button>
+        <div class="dropdown-content">
+          <a href="games.html">Игровая зона</a>
+          <a href="quiz.html">Квиз</a>
+          <a href="achievements.html">Достижения</a>
+          <a href="device.html">Устройство</a>
+        </div>
+      </div>
+      <a href="parents.html">О сайте</a>
+    </nav>
+  </header>
+  <main>
+    <div class="quiz-wrapper" id="quizBox">
+      <div class="quiz-header">
+        <div class="header-left">
+          <div id="questionCounter">Вопрос 1 из 10</div>
+          <div class="streak-box" id="streakDisplay">🔥 Серия: 0</div>
+        </div>
+        <div style="display: flex; gap: 15px; align-items: center;">
+          <button class="lifeline-btn" id="lifelineBtn" onclick="useFiftyFifty()" title="Убрать 2 неправильных ответа">50/50</button>
+          <div class="timer-box" id="timerDisplay">15</div>
+        </div>
+      </div>
+      <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill"></div></div>
+      <div class="question-text" id="questionText">Загрузка вопроса...</div>
+      <div class="options" id="optionsBox"></div>
+      <div class="explanation" id="explanationBox"></div>
+    </div>
+
+    <div class="quiz-wrapper result-screen" id="resultBox">
+      <canvas id="confetti-canvas"></canvas>
+      <h2>Квиз завершён!</h2>
+      <div class="result-rank" id="resultRank">Звание</div>
+      <div class="result-score" id="finalScore">Твой результат: 0 из 10</div>
+      <div class="result-highscore" id="highScore">Рекорд: 0</div>
+      <p id="resultMessage" style="font-size: 1.3rem; margin-bottom: 30px;"></p>
+      <button class="btn" onclick="restartQuiz()">Пройти заново</button>
+    </div>
+  </main>
+  <footer>
+    <p>Учебный проект. Источники информации: 
+      <a href="https://www.roscosmos.ru/" target="_blank" rel="noopener noreferrer">Госкорпорация «Роскосмос»</a> и 
+      <a href="https://ru.ruwiki.ru/" target="_blank" rel="noopener noreferrer">Рувики</a>.
+    </p>
+  </footer>
+  <script src="../js/stars.js"></script>
+  <script>
+    // --- ЗВУКОВЫЕ ЭФФЕКТЫ ---
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function playTone(freq, type, duration) {
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + duration);
+    }
+    function playCorrect() { playTone(800, 'sine', 0.15); setTimeout(() => playTone(1200, 'sine', 0.2), 100); }
+    function playWrong() { playTone(150, 'sawtooth', 0.3); }
+
+    // --- БАЗА ВОПРОСОВ (35 штук, теперь по 4 варианта) ---
+    const allQuestions = [
+      // Авиация
+      { q: "Кто первым в мире создал многомоторный самолёт «Русский витязь»?", o: ["Андрей Туполев", "Игорь Сикорский", "Сергей Королёв", "Павел Сухой"], a: 1, e: "Игорь Сикорский создал «Русский витязь» в 1913 году." },
+      { q: "Кто первым выполнил «мертвую петлю» в 1913 году?", o: ["Пётр Нестеров", "Валерий Чкалов", "Иван Кожедуб", "Александр Покрышкин"], a: 0, e: "Пётр Нестеров выполнил замкнутую петлю в вертикальной плоскости." },
+      { q: "Какой летчик-ас считается самым результативным в авиации антигитлеровской коалиции?", o: ["Александр Покрышкин", "Иван Кожедуб", "Амет-хан Султан", "Марина Попович"], a: 1, e: "Иван Кожедуб официально сбил 64 самолета противника." },
+      { q: "Кто командовал экипажем, совершившим первый беспосадочный перелёт из Москвы в США через Северный полюс?", o: ["Михаил Громов", "Валерий Чкалов", "Владимир Коккинаки", "Пётр Нестеров"], a: 1, e: "Экипаж Валерия Чкалова совершил этот перелёт в 1937 году." },
+      { q: "Кто создал знаменитые самолёты марки «Ту»?", o: ["Андрей Туполев", "Сергей Королёв", "Павел Сухой", "Игорь Сикорский"], a: 0, e: "Андрей Туполев создал более 100 типов самолётов, включая Ту-144." },
+      { q: "Как называется новейший российский пассажирский самолёт, созданный в XXI веке?", o: ["МС-21", "Ту-144", "Ил-96", "Су-57"], a: 0, e: "МС-21 (Магистральный самолёт XXI века) — новейшая разработка." },
+      { q: "Кто первым в СССР поднял в воздух реактивный истребитель БИ-1?", o: ["Григорий Бахчиванджи", "Андрей Туполев", "Павел Сухой", "Валерий Чкалов"], a: 0, e: "Григорий Бахчиванджи поднял БИ-1 в воздух в 1942 году." },
+      { q: "Кого называли «Мадам МиГ»?", o: ["Валентина Гризодубова", "Марина Попович", "Светлана Савицкая", "Елена Серова"], a: 1, e: "Марина Попович — легендарная лётчица-испытатель, установившая 102 рекорда." },
+      { q: "Кто из летчиков установил 20 мировых авиационных рекордов?", o: ["Владимир Коккинаки", "Михаил Громов", "Валерий Чкалов", "Амет-хан Султан"], a: 0, e: "Владимир Коккинаки установил 20 мировых рекордов." },
+      { q: "Кто первый в России построил летательный аппарат, похожий на современный самолёт?", o: ["Александр Можайский", "Игорь Сикорский", "Пётр Нестеров", "Николай Жуковский"], a: 0, e: "Александр Можайский построил свой самолет в 1882 году." },
+
+      // Космонавтика: Первые
+      { q: "В каком году состоялся легендарный полёт Юрия Гагарина?", o: ["1957", "1961", "1988", "1965"], a: 1, e: "Юрий Гагарин полетел в космос 12 апреля 1961 года." },
+      { q: "Сколько минут длился полёт Юрия Гагарина?", o: ["108 минут", "60 минут", "24 часа", "120 минут"], a: 0, e: "Полёт Гагарина длился 108 минут." },
+      { q: "Кто был главным конструктором советской космической программы?", o: ["Сергей Королёв", "Андрей Туполев", "Тимур Энеев", "Мстислав Келдыш"], a: 0, e: "Сергей Королёв руководил запуском первого спутника и Гагарина." },
+      { q: "Чьи математические расчеты доказали безопасность спуска для Гагарина?", o: ["Тимур Энеев", "Сергей Королёв", "Мстислав Келдыш", "Николай Пилюгин"], a: 0, e: "Тимур Энеев рассчитал, что перегрузки при спуске не опасны для человека." },
+      { q: "Кто первым в истории человечества вышел в открытый космос?", o: ["Юрий Гагарин", "Валентина Терешкова", "Алексей Леонов", "Андриян Николаев"], a: 2, e: "Алексей Леонов вышел в открытый космос в 1965 году." },
+      { q: "Как звали первую в мире женщину-космонавта?", o: ["Валентина Гризодубова", "Валентина Терешкова", "Елена Кондакова", "Светлана Савицкая"], a: 1, e: "Валентина Терешкова полетела в космос в 1963 году." },
+      { q: "Кто первым провёл в космосе более суток?", o: ["Герман Титов", "Юрий Гагарин", "Андриян Николаев", "Владимир Комаров"], a: 0, e: "Герман Титов провел на орбите 1 сутки и 1 час в 1961 году." },
+      { q: "Кто командовал первым в мире многоместным кораблём «Восход»?", o: ["Владимир Комаров", "Павел Попович", "Алексей Леонов", "Герман Титов"], a: 0, e: "Владимир Комаров командовал «Восходом» в 1964 году." },
+      { q: "Кто стал первой женщиной, вышедшей в открытый космос?", o: ["Светлана Савицкая", "Валентина Терешкова", "Елена Серова", "Елена Кондакова"], a: 0, e: "Светлана Савицкая вышла в космос в 1984 году." },
+      { q: "Кто была первой россиянкой, работавшей на борту МКС?", o: ["Елена Кондакова", "Елена Серова", "Светлана Савицкая", "Валентина Терешкова"], a: 1, e: "Елена Серова работала на МКС в 2014 году." },
+      { q: "Кто первая из женщин совершила длительный (почти полугодовой) полёт?", o: ["Елена Кондакова", "Елена Серова", "Валентина Терешкова", "Светлана Савицкая"], a: 0, e: "Елена Кондакова провела на станции «Мир» 169 суток." },
+      { q: "Кто совершил самый длительный полёт в истории (437 суток)?", o: ["Геннадий Падалка", "Валерий Поляков", "Сергей Крикалёв", "Георгий Добровольский"], a: 1, e: "Валерий Поляков провел на станции «Мир» 437 суток." },
+      { q: "Кто является абсолютным рекордсменом по суммарному времени в космосе (878 суток)?", o: ["Геннадий Падалка", "Валерий Поляков", "Сергей Крикалёв", "Юрий Гагарин"], a: 0, e: "Геннадий Падалка провел в космосе 878 суток за 5 полётов." },
+      { q: "Кто первым из российских космонавтов полетел на американском шаттле?", o: ["Сергей Крикалёв", "Геннадий Падалка", "Юрий Гагарин", "Алексей Леонов"], a: 0, e: "Сергей Крикалёв полетел на шаттле «Дискавери» в 1994 году." },
+
+      // Космонавтика: События и техника
+      { q: "Как звали собак, которые слетали в космос и вернулись живыми?", o: ["Лайка и Стрелка", "Белка и Стрелка", "Белка и Лайка", "Лайка и Белка"], a: 1, e: "Белка и Стрелка летали на «Спутнике-5» в 1960 году." },
+      { q: "Как назывался советский многоразовый космический корабль?", o: ["Буран", "Восток", "Союз", "Клипер"], a: 0, e: "«Буран» совершил свой единственный полёт в 1988 году." },
+      { q: "Какое событие произошло в 1957 году?", o: ["Полёт Гагарина", "Запуск первого спутника", "Выход в открытый космос", "Первый групповой полёт"], a: 1, e: "В 1957 году был запущен первый искусственный спутник Земли." },
+      { q: "Как называлась первая в мире орбитальная станция?", o: ["Мир", "Салют-1", "МКС", "Мир-2"], a: 1, e: "Станция «Салют-1» была запущена в 1971 году." },
+      { q: "Что означает аббревиатура МКС?", o: ["Международная космическая станция", "Марсианская космическая система", "Мирная космическая станция", "Межгалактическая космическая станция"], a: 0, e: "МКС — это Международная космическая станция, работает с 1998 года." },
+      { q: "Что означает аббревиатура РОС?", o: ["Российская орбитальная станция", "Ракетно-орбитальная система", "Российский орбитальный спутник", "Российский оборонный спутник"], a: 0, e: "РОС — это Российская орбитальная станция, которую планируют создать в будущем." },
+      { q: "Что случилось с экипажем корабля «Союз-11» в 1971 году?", o: ["Они совершили первый выход в космос", "Произошла разгерметизация, экипаж погиб", "Они первыми стыковались с «Аполлоном»", "Они первыми вышли на орбиту Луны"], a: 1, e: "При возвращении на Землю произошла разгерметизация спускаемого аппарата." },
+      { q: "Что означает слово «Буран»?", o: ["Сильный ветер со снегом", "Космическая станция", "Название ракеты", "Космический корабль"], a: 0, e: "Буран — это сильный снежный ветер, что подходит для космического корабля." },
+
+      // Техника (Луноход)
+      { q: "Сколько колёс было у советского Лунохода?", o: ["4 колеса", "6 колёс", "8 колёс", "10 колёс"], a: 2, e: "У Лунохода было 8 колёс, каждое со своим электромотором." },
+      { q: "Как Луноход переживал лунную ночь (до -170°C)?", o: ["Грелся от радиоактивных элементов", "Закрывал солнечную батарею как крышку", "Улетал обратно на Землю", "Он улетал на орбиту Луны"], a: 1, e: "Днём батарея заряжалась, а на ночь закрывалась, сохраняя тепло внутри." },
+      { q: "Что помогало колёсам Лунохода не застревать в лунной пыли?", o: ["Специальная сетка на колёсах", "Реактивная тяга", "Воздушная подушка", "Толстый слой резины"], a: 0, e: "На колёсах была надета специальная сетка." }
+    ];
+
+    let questions = [];
+    let currentIndex = 0, score = 0, timer, timeLeft = 15, currentCorrectBtn = null;
+    let streak = 0, lifelineUsed = false;
+
+    const quizBox = document.getElementById('quizBox'), resultBox = document.getElementById('resultBox');
+    const questionText = document.getElementById('questionText'), optionsBox = document.getElementById('optionsBox');
+    const questionCounter = document.getElementById('questionCounter'), timerDisplay = document.getElementById('timerDisplay');
+    const progressFill = document.getElementById('progressFill'), explanationBox = document.getElementById('explanationBox');
+    const streakDisplay = document.getElementById('streakDisplay'), lifelineBtn = document.getElementById('lifelineBtn');
+
+    function shuffle(array) {
+      let currentIndex = array.length, randomIndex;
+      while (currentIndex != 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+        [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+      }
+      return array;
+    }
+
+    function startQuiz() {
+      // Выбираем 10 случайных вопросов из базы в 35 штук
+      questions = shuffle([...allQuestions]).slice(0, 10);
+      currentIndex = 0; score = 0; streak = 0; lifelineUsed = false;
+      
+      streakDisplay.style.display = 'none';
+      streakDisplay.innerText = '🔥 Серия: 0';
+      lifelineBtn.disabled = false;
+      lifelineBtn.innerText = '50/50';
+      
+      quizBox.style.display = 'block'; resultBox.style.display = 'none';
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      resetState();
+      if (currentIndex >= questions.length) { showResults(); return; }
+      
+      const q = questions[currentIndex];
+      questionCounter.innerText = `Вопрос ${currentIndex + 1} из ${questions.length}`;
+      progressFill.style.width = `${((currentIndex) / questions.length) * 100}%`;
+      questionText.innerText = q.q;
+      
+      // Перемешиваем 4 варианта ответа
+      const shuffledOptions = q.o.map((text, index) => ({ text, isCorrect: index === q.a }));
+      shuffle(shuffledOptions);
+      currentCorrectBtn = null;
+      
+      shuffledOptions.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn'; 
+        btn.innerText = opt.text;
+        btn.dataset.isCorrect = opt.isCorrect; 
+        if (opt.isCorrect) currentCorrectBtn = btn;
+        btn.onclick = () => selectAnswer(btn, opt.isCorrect, q.e);
+        optionsBox.appendChild(btn);
+      });
+      
+      timeLeft = 15; timerDisplay.innerText = timeLeft; timerDisplay.style.color = '#ff4d4d';
+      timer = setInterval(() => {
+        timeLeft--; timerDisplay.innerText = timeLeft;
+        if (timeLeft <= 5) timerDisplay.style.color = '#ffb703';
+        if (timeLeft <= 0) { clearInterval(timer); timeOut(); }
+      }, 1000);
+    }
+
+    function resetState() {
+      clearInterval(timer); optionsBox.innerHTML = '';
+      explanationBox.style.display = 'none'; explanationBox.innerHTML = '';
+    }
+
+    function selectAnswer(selectedBtn, isCorrect, explanation) {
+      clearInterval(timer);
+      const allBtns = document.querySelectorAll('.option-btn');
+      allBtns.forEach(btn => btn.disabled = true);
+      
+      if (currentCorrectBtn) currentCorrectBtn.classList.add('correct');
+
+      if (isCorrect) {
+        selectedBtn.classList.add('correct');
+        score++;
+        streak++;
+        
+        if (streak > 1) {
+          streakDisplay.style.display = 'block';
+          streakDisplay.innerText = `🔥 Серия: ${streak}`;
+        }
+        playCorrect();
+      } else {
+        selectedBtn.classList.add('wrong');
+        streak = 0;
+        streakDisplay.style.display = 'none';
+        playWrong();
+      }
+
+      explanationBox.innerText = explanation; 
+      explanationBox.style.display = 'block';
+
+      setTimeout(() => { currentIndex++; loadQuestion(); }, 2500);
+    }
+
+    function timeOut() {
+      const allBtns = document.querySelectorAll('.option-btn');
+      allBtns.forEach(btn => btn.disabled = true);
+      if (currentCorrectBtn) currentCorrectBtn.classList.add('correct');
+      
+      streak = 0;
+      streakDisplay.style.display = 'none';
+      playWrong();
+      
+      explanationBox.innerText = "Время вышло! " + questions[currentIndex].e;
+      explanationBox.style.display = 'block';
+      setTimeout(() => { currentIndex++; loadQuestion(); }, 2500);
+    }
+
+    function useFiftyFifty() {
+      if (lifelineUsed || !isPlaying()) return;
+      lifelineUsed = true;
+      lifelineBtn.disabled = true;
+      lifelineBtn.innerText = 'Исп.';
+      
+      const allBtns = Array.from(document.querySelectorAll('.option-btn'));
+      // Теперь неправильных вариантов 3, скрываем 2 из них
+      const wrongBtns = allBtns.filter(btn => btn.dataset.isCorrect === 'false');
+      
+      shuffle(wrongBtns);
+      wrongBtns[0].classList.add('hidden-option');
+      wrongBtns[1].classList.add('hidden-option');
+    }
+
+    function isPlaying() {
+      const allBtns = document.querySelectorAll('.option-btn');
+      return allBtns.length > 0 && !allBtns[0].disabled;
+    }
+
+    function showResults() {
+      quizBox.style.display = 'none'; 
+      resultBox.style.display = 'block';
+      progressFill.style.width = '100%';
+      
+      const finalScoreEl = document.getElementById('finalScore');
+      const highScoreEl = document.getElementById('highScore');
+      const resultMessage = document.getElementById('resultMessage');
+      const resultRank = document.getElementById('resultRank');
+      
+      finalScoreEl.innerText = `Твой результат: ${score} из 10`;
+      
+      if (score === 10) { window.unlockAchievement('quiz_master');
+        resultRank.innerText = "🏆 Легенда космоса";
+        resultRank.style.color = "#ffb703";
+        resultMessage.innerText = "Невероятно! Ты знаешь историю лучше самих космонавтов! 🚀";
+        fireConfetti();
+      } else if (score >= 8) {
+        resultRank.innerText = "🚀 Академик космонавтики";
+        resultRank.style.color = "#00f0ff";
+        resultMessage.innerText = "Отличный результат! Ты настоящий эксперт.";
+        fireConfetti();
+      } else if (score >= 5) {
+        resultRank.innerText = "🛠️ Юный конструктор";
+        resultRank.style.color = "#4ade80";
+        resultMessage.innerText = "Хороший результат, но есть куда расти!";
+      } else {
+        resultRank.innerText = "🌱 Юнга";
+        resultRank.style.color = "#9aa4c7";
+        resultMessage.innerText = "Попробуй еще раз, прочитав наши статьи!";
+      }
+      
+      let highScore = localStorage.getItem('quizHighScore') || 0;
+      if (score > highScore) {
+        highScore = score; 
+        localStorage.setItem('quizHighScore', highScore);
+        resultMessage.innerText += " 🎉 Новый рекорд!";
+      }
+      highScoreEl.innerText = `Лучший результат: ${highScore} из 10`;
+    }
+
+    function restartQuiz() { startQuiz(); }
+    
+    function fireConfetti() {
+      const canvas = document.getElementById('confetti-canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+      
+      let particles = [];
+      const colors = ['#ffb703', '#00f0ff', '#4ade80', '#ff4d4d', '#ffffff'];
+      
+      for (let i = 0; i < 100; i++) {
+        particles.push({
+          x: canvas.width / 2,
+          y: canvas.height / 2 + 100,
+          vx: (Math.random() - 0.5) * 15,
+          vy: (Math.random() - 0.5) * 15 - 5,
+          size: Math.random() * 8 + 4,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          life: 1
+        });
+      }
+      
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        let alive = false;
+        particles.forEach(p => {
+          if (p.life > 0) {
+            alive = true;
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += 0.2;
+            p.life -= 0.01;
+            ctx.globalAlpha = p.life;
+            ctx.fillStyle = p.color;
+            ctx.fillRect(p.x, p.y, p.size, p.size);
+          }
+        });
+        if (alive) requestAnimationFrame(animate);
+      }
+      animate();
+    }
+
+    startQuiz();
+  </script>
+  <script src="../js/gamification.js"></script>`n  <button onclick="topFunction()" id="scrollToTopBtn" title="Наверх">↑</button>
+  <script>
+    window.onscroll = function() { scrollFunction() };
+    function scrollFunction() {
+      const btn = document.getElementById("scrollToTopBtn");
+      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        btn.style.display = "block";
+      } else {
+        btn.style.display = "none";
+      }
+    }
+    function topFunction() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
+  </script>
+  <script src="../js/search.js"></script>
+  <script src="../js/mascot.js"></script>
+</body>
+</html>

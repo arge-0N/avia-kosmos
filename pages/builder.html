@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Авиаконструктор | Российская авиация и космос</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .tabs-container { display: flex; justify-content: center; gap: 20px; margin-bottom: 30px; flex-wrap: wrap; }
+    .tab-btn { background: var(--card-bg); color: var(--text); border: 2px solid var(--border); padding: 15px 30px; font-size: 1.1rem; font-weight: 700; font-family: 'Montserrat', sans-serif; border-radius: 30px; cursor: pointer; transition: all 0.3s ease; }
+    .tab-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .tab-btn.active { background: var(--accent); color: var(--bg-dark); border-color: var(--accent); box-shadow: 0 0 20px rgba(255, 183, 3, 0.4); }
+
+    .builder-section { display: none; }
+    .builder-section.active { display: flex; flex-wrap: wrap; gap: 40px; max-width: 1000px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 20px; border: 1px solid var(--border); box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+    
+    .visual-zone {
+      flex: 1 1 300px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      min-height: 500px;
+      background: radial-gradient(circle at center, #1a2347 0%, #0b1026 100%);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    /* =========================================
+       Анимации
+       ========================================= */
+    .rocket-container { transition: transform 3s ease-in; }
+    .plane-container { transition: transform 3s ease-in, opacity 1.5s ease-in; }
+    
+    .rocket-launch-success { transform: translateY(-600px); }
+    .plane-launch-success { transform: translate(400px, -300px) rotate(25deg) scale(0.3); opacity: 0; }
+    
+    .launch-fail { animation: shake 0.5s; }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-10px); }
+      75% { transform: translateX(10px); }
+    }
+
+    .explosion { position: absolute; bottom: 40%; font-size: 6rem; opacity: 0; transition: opacity 0.1s; pointer-events: none; z-index: 10; text-shadow: 0 0 30px #ff4d4d; }
+
+    /* Панель управления */
+    .control-panel { flex: 1 1 400px; display: flex; flex-direction: column; justify-content: center; gap: 25px; }
+    .control-group { background: rgba(0, 0, 0, 0.2); padding: 20px; border-radius: 12px; border: 1px solid var(--border); }
+    .control-group label { display: flex; justify-content: space-between; font-weight: bold; color: var(--text); margin-bottom: 10px; font-size: 1.1rem; }
+    
+    input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
+    input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 24px; width: 24px; border-radius: 50%; background: var(--accent); cursor: pointer; margin-top: -8px; box-shadow: 0 0 10px var(--accent); }
+    input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 8px; cursor: pointer; background: var(--bg-dark); border-radius: 4px; border: 1px solid var(--border); }
+
+    .launch-btn { padding: 20px; font-size: 1.4rem; font-weight: 900; font-family: 'Montserrat', sans-serif; background: linear-gradient(90deg, #ff4d4d, #ff8c00); color: white; border: none; border-radius: 12px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 5px 20px rgba(255, 77, 77, 0.4); transition: all 0.3s; }
+    .launch-btn:hover:not(:disabled) { transform: scale(1.02); box-shadow: 0 10px 30px rgba(255, 77, 77, 0.6); }
+    .launch-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .status-message { text-align: center; font-size: 1.3rem; font-weight: bold; color: var(--text); min-height: 30px; }
+  </style>
+</head>
+<body>
+  <canvas id="star-canvas"></canvas>
+  <header>
+    <a href="../index.html" class="logo">Российская авиация и космос</a>
+    <nav>
+      <a href="../index.html">Главная</a>
+      <div class="dropdown">
+        <button class="dropbtn">Обучение ▾</button>
+        <div class="dropdown-content">
+          <a href="timeline.html">Лента времени</a>
+          <a href="heroes.html">Личности</a>
+          <a href="training.html">Подготовка</a>
+          <a href="map.html">Карта героев</a>
+          <a href="dictionary.html">Словарь</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button class="dropbtn">Игры ▾</button>
+        <div class="dropdown-content">
+          <a href="games.html">Игровая зона</a>
+          <a href="quiz.html">Квиз</a>
+          <a href="achievements.html">Достижения</a>
+          <a href="device.html">Устройство</a>
+        </div>
+      </div>
+      <a href="parents.html">О сайте</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" style="padding: 20px 0 20px;">
+      <h1>Авиаконструктор</h1>
+      <p>Выбери, что будешь строить: ракету или самолет!</p>
+    </section>
+
+    <div class="tabs-container">
+      <button class="tab-btn active" onclick="switchBuilder('rocket', this)">🚀 Ракета</button>
+      <button class="tab-btn" onclick="switchBuilder('plane', this)">✈️ Самолёт</button>
+    </div>
+
+    <!-- БЛОК 1: РАКЕТА -->
+    <div class="builder-section active" id="section-rocket">
+      <div class="visual-zone">
+        <div class="explosion" id="rocket-explosion">💥</div>
+        
+        <div class="rocket-container" id="rocket">
+          <svg width="200" height="400" viewBox="0 0 200 400">
+            <defs>
+              <linearGradient id="body-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#a0aac7"/>
+                <stop offset="50%" stop-color="#ffffff"/>
+                <stop offset="100%" stop-color="#8892b0"/>
+              </linearGradient>
+              <linearGradient id="flame-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#ffb703"/>
+                <stop offset="50%" stop-color="#ff8c00"/>
+                <stop offset="100%" stop-color="#ff4d4d"/>
+              </linearGradient>
+            </defs>
+            
+            <!-- Точка отсчета: Центр X = 100, Низ бака = 300 -->
+            <g transform="translate(100, 300)">
+              
+              <!-- Пламя (позади) -->
+              <path id="r-flame" d="M -12 15 Q 0 40 12 15 Z" fill="url(#flame-grad)" />
+              
+              <!-- Боковые стабилизаторы (плавники) -->
+              <!-- Левый и правый, красиво скошенные вниз -->
+              <path id="r-fins" d="M -30 -60 L -60 15 L -30 15 Z M 30 -60 L 60 15 L 30 15 Z" fill="#9aa4c7" stroke="#555" stroke-width="2" stroke-linejoin="round"/>
+              
+              <!-- Топливный бак -->
+              <rect id="r-tank" x="-30" y="-150" width="60" height="150" fill="url(#body-grad)" stroke="#555" stroke-width="2" rx="4"/>
+              
+              <!-- Сопло двигателя (небольшой блок под баком) -->
+              <rect id="r-engine" x="-12" y="0" width="24" height="15" fill="#444" stroke="#222" stroke-width="2"/>
+              
+              <!-- Носовая часть (острая) -->
+              <path id="r-nose" d="M -30 -150 Q 0 -240 30 -150 Z" fill="url(#body-grad)" stroke="#555" stroke-width="2"/>
+              
+              <!-- Иллюминатор -->
+              <circle id="r-window" cx="0" cy="-130" r="8" fill="#0b1026" stroke="#ffb703" stroke-width="2"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="control-panel">
+        <div class="control-group">
+          <label>Мощность двигателя <span id="r-power-val">5</span></label>
+          <input type="range" id="r-power" min="1" max="10" value="5" oninput="updateRocket()">
+        </div>
+        <div class="control-group">
+          <label>Объем топлива <span id="r-fuel-val">5</span></label>
+          <input type="range" id="r-fuel" min="1" max="10" value="5" oninput="updateRocket()">
+        </div>
+        <div class="control-group">
+          <label>Вес полезной нагрузки <span id="r-weight-val">5</span></label>
+          <input type="range" id="r-weight" min="1" max="10" value="5" oninput="updateRocket()">
+        </div>
+        <div class="status-message" id="r-status">Ожидание запуска...</div>
+        <button class="launch-btn" id="r-launchBtn" onclick="launchRocket()">🚀 Запуск</button>
+      </div>
+    </div>
+
+    <!-- БЛОК 2: САМОЛЕТ -->
+    <div class="builder-section" id="section-plane">
+      <div class="visual-zone">
+        
+        <div class="plane-container" id="plane">
+          <!-- Истребитель -->
+          <svg width="400" height="400" viewBox="0 0 400 400">
+            <defs>
+              <linearGradient id="plane-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#a0aac7"/>
+                <stop offset="50%" stop-color="#ffffff"/>
+                <stop offset="100%" stop-color="#a0aac7"/>
+              </linearGradient>
+              <linearGradient id="p-flame-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#00f0ff"/>
+                <stop offset="100%" stop-color="#0055ff"/>
+              </linearGradient>
+            </defs>
+
+            <g transform="translate(200, 200)">
+              <!-- Пламя двигателя -->
+              <polygon id="p-flame" points="-10 100 10 100 0 140" fill="url(#p-flame-grad)" />
+              
+              <!-- Хвостовое оперение (2 киля) -->
+              <polygon id="p-tail-left" points="-20 80 -60 120 -40 120 -20 100" fill="#c0c8e0" stroke="#555" stroke-width="2"/>
+              <polygon id="p-tail-right" points="20 80 60 120 40 120 20 100" fill="#c0c8e0" stroke="#555" stroke-width="2"/>
+              
+              <!-- Крылья (дельтавидные) -->
+              <polygon id="p-wing-left" points="-20 20 -120 100 -20 120" fill="#c0c8e0" stroke="#555" stroke-width="2"/>
+              <polygon id="p-wing-right" points="20 20 120 100 20 120" fill="#c0c8e0" stroke="#555" stroke-width="2"/>
+              
+              <!-- Фюзеляж -->
+              <path id="p-fuselage" d="M 0 -120 Q 20 0 20 100 L -20 100 Q -20 0 0 -120 Z" fill="url(#plane-grad)" stroke="#555" stroke-width="2"/>
+              
+              <!-- Кабина -->
+              <path id="p-cockpit" d="M 0 -90 Q 12 -70 12 -40 L -12 -40 Q -12 -70 0 -90 Z" fill="#0b1026" stroke="#ffb703" stroke-width="2"/>
+            </g>
+          </svg>
+        </div>
+
+      </div>
+
+      <div class="control-panel">
+        <div class="control-group">
+          <label>Размах крыльев <span id="p-wings-val">5</span></label>
+          <input type="range" id="p-wings" min="1" max="10" value="5" oninput="updatePlane()">
+        </div>
+        <div class="control-group">
+          <label>Мощность двигателя <span id="p-power-val">5</span></label>
+          <input type="range" id="p-power" min="1" max="10" value="5" oninput="updatePlane()">
+        </div>
+        <div class="control-group">
+          <label>Вес самолета <span id="p-weight-val">5</span></label>
+          <input type="range" id="p-weight" min="1" max="10" value="5" oninput="updatePlane()">
+        </div>
+        <div class="status-message" id="p-status">Ожидание взлета...</div>
+        <button class="launch-btn" id="p-launchBtn" onclick="launchPlane()">✈️ Взлет</button>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <p>Учебный проект. Источники информации: 
+      <a href="https://www.roscosmos.ru/" target="_blank" rel="noopener noreferrer">Госкорпорация «Роскосмос»</a> и 
+      <a href="https://ru.ruwiki.ru/" target="_blank" rel="noopener noreferrer">Рувики</a>.
+    </p>
+  </footer>
+
+  <script src="../js/stars.js"></script>
+  <script>
+    function switchBuilder(type, btn) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      
+      document.querySelectorAll('.builder-section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById('section-' + type).classList.add('active');
+    }
+
+    // ==========================================
+    // РАКЕТА
+    // ==========================================
+    const rPower = document.getElementById('r-power');
+    const rFuel = document.getElementById('r-fuel');
+    const rWeight = document.getElementById('r-weight');
+    const rStatus = document.getElementById('r-status');
+    const rLaunchBtn = document.getElementById('r-launchBtn');
+    const rRocketEl = document.getElementById('rocket');
+    const rExplosion = document.getElementById('rocket-explosion');
+
+    function updateRocket() {
+      const power = parseInt(rPower.value);
+      const fuel = parseInt(rFuel.value);
+      const weight = parseInt(rWeight.value);
+
+      document.getElementById('r-power-val').innerText = power;
+      document.getElementById('r-fuel-val').innerText = fuel;
+      document.getElementById('r-weight-val').innerText = weight;
+
+      const h = 80 + fuel * 10; // Высота бака
+      const w = 40 + weight * 4; // Ширина бака
+      const flameLength = 20 + power * 10;
+
+      // 1. Топливный бак
+      const tank = document.getElementById('r-tank');
+      tank.setAttribute('y', -h);
+      tank.setAttribute('height', h);
+      tank.setAttribute('width', w);
+      tank.setAttribute('x', -w/2);
+
+      // 2. Нос (острее)
+      const nose = document.getElementById('r-nose');
+      nose.setAttribute('d', `M ${-w/2} ${-h} Q 0 ${-h - 120} ${w/2} ${-h} Z`);
+
+      // 3. Иллюминатор
+      const windowEl = document.getElementById('r-window');
+      windowEl.setAttribute('cy', -h + 20);
+
+      // 4. Плавники (прикреплены к бокам бака и идут вниз)
+      const fins = document.getElementById('r-fins');
+      // Начинаем от левого края (-w/2) на высоте -60 (вверх), уходим влево-вниз до y=15
+      fins.setAttribute('d', `M ${-w/2} -60 L ${-w/2 - 40} 15 L ${-w/2} 15 Z M ${w/2} -60 L ${w/2 + 40} 15 L ${w/2} 15 Z`);
+
+      // 5. Двигатель
+      const engine = document.getElementById('r-engine');
+      engine.setAttribute('x', -w/4);
+      engine.setAttribute('width', w/2);
+
+      // 6. Пламя
+      const flame = document.getElementById('r-flame');
+      flame.setAttribute('d', `M ${-w/4} 15 Q 0 ${15 + flameLength} ${w/4} 15 Z`);
+
+      // Цвет пламени
+      if (power >= 8) {
+        flame.style.fill = '#00f0ff';
+      } else {
+        flame.style.fill = 'url(#flame-grad)';
+      }
+    }
+
+    function launchRocket() {
+      const power = parseInt(rPower.value);
+      const fuel = parseInt(rFuel.value);
+      const weight = parseInt(rWeight.value);
+
+      rLaunchBtn.disabled = true;
+      rPower.disabled = true; rFuel.disabled = true; rWeight.disabled = true;
+
+      rStatus.innerText = "Запуск двигателей...";
+      rStatus.style.color = "var(--text)";
+
+      setTimeout(() => {
+        const thrust = power * 10;
+        const totalWeight = (fuel * 4) + (weight * 8);
+
+        if (thrust < totalWeight) {
+          rStatus.innerText = "❌ Слишком тяжело! Ракета не оторвалась от земли.";
+          rStatus.style.color = "#ff4d4d";
+          rRocketEl.classList.add('launch-fail');
+          endRocketLaunch();
+        } else if (fuel > power * 1.5) {
+          rStatus.innerText = "💥 Двигатель перегружен, взрыв на старте!";
+          rStatus.style.color = "#ff4d4d";
+          rExplosion.style.opacity = "1";
+          rRocketEl.style.opacity = "0";
+          endRocketLaunch();
+        } else if (power > fuel * 2) {
+          rStatus.innerText = "⚠️ Топливо закончилось слишком быстро, ракета упала.";
+          rStatus.style.color = "#ffb703";
+          rRocketEl.classList.add('launch-fail');
+          endRocketLaunch();
+        } else {
+          rStatus.innerText = '✅ Успешный запуск! Ракета на орбите!'; window.unlockAchievement('engineer');
+          rStatus.style.color = "#4ade80";
+          rRocketEl.classList.add('rocket-launch-success');
+          setTimeout(endRocketLaunch, 3000);
+        }
+      }, 1000);
+    }
+
+    function endRocketLaunch() {
+      setTimeout(() => {
+        rRocketEl.classList.remove('rocket-launch-success', 'launch-fail');
+        rRocketEl.style.opacity = "1";
+        rExplosion.style.opacity = "0";
+        rLaunchBtn.disabled = false;
+        rPower.disabled = false; rFuel.disabled = false; rWeight.disabled = false;
+        rStatus.innerText = "Ожидание запуска...";
+        rStatus.style.color = "var(--text)";
+      }, 2500);
+    }
+
+    // ==========================================
+    // САМОЛЕТ
+    // ==========================================
+    const pWings = document.getElementById('p-wings');
+    const pPower = document.getElementById('p-power');
+    const pWeight = document.getElementById('p-weight');
+    const pStatus = document.getElementById('p-status');
+    const pLaunchBtn = document.getElementById('p-launchBtn');
+    const pPlaneEl = document.getElementById('plane');
+
+    function updatePlane() {
+      const wings = parseInt(pWings.value);
+      const power = parseInt(pPower.value);
+      const weight = parseInt(pWeight.value);
+
+      document.getElementById('p-wings-val').innerText = wings;
+      document.getElementById('p-power-val').innerText = power;
+      document.getElementById('p-weight-val').innerText = weight;
+
+      // 1. Крылья
+      const wingSpan = 60 + wings * 8; 
+      document.getElementById('p-wing-left').setAttribute('points', `-20 20 -${wingSpan} 100 -20 120`);
+      document.getElementById('p-wing-right').setAttribute('points', `20 20 ${wingSpan} 100 20 120`);
+      
+      // 2. Хвост
+      const tailSpan = 30 + wings * 2;
+      document.getElementById('p-tail-left').setAttribute('points', `-20 80 -${tailSpan+20} 120 -${tailSpan} 120 -20 100`);
+      document.getElementById('p-tail-right').setAttribute('points', `20 80 ${tailSpan+20} 120 ${tailSpan} 120 20 100`);
+
+      // 3. Пламя
+      const flameLength = 20 + power * 12; 
+      document.getElementById('p-flame').setAttribute('points', `-10 100 10 100 0 ${100 + flameLength}`);
+
+      // 4. Фюзеляж
+      const bodyW = 30 + weight * 4; 
+      const pFuselage = document.getElementById('p-fuselage');
+      pFuselage.setAttribute('d', `M 0 -120 Q ${bodyW/2} 0 ${bodyW/2} 100 L ${-bodyW/2} 100 Q ${-bodyW/2} 0 0 -120 Z`);
+
+      // 5. Кабина
+      const pCockpit = document.getElementById('p-cockpit');
+      const cockpitW = bodyW * 0.6;
+      pCockpit.setAttribute('d', `M 0 -90 Q ${cockpitW/2} -70 ${cockpitW/2} -40 L ${-cockpitW/2} -40 Q ${-cockpitW/2} -70 0 -90 Z`);
+    }
+
+    function launchPlane() {
+      const wings = parseInt(pWings.value);
+      const power = parseInt(pPower.value);
+      const weight = parseInt(pWeight.value);
+
+      pLaunchBtn.disabled = true;
+      pWings.disabled = true; pPower.disabled = true; pWeight.disabled = true;
+      pStatus.innerText = "Разгон по взлетной полосе...";
+      pStatus.style.color = "var(--text)";
+
+      setTimeout(() => {
+        const lift = (wings * 2) + (power * 3);
+        const gravity = weight * 5;
+
+        if (lift < gravity) {
+          pStatus.innerText = "❌ Недостаточно подъемной силы! Увеличьте крылья или мощность.";
+          pStatus.style.color = "#ff4d4d";
+          pPlaneEl.classList.add('launch-fail');
+          endPlaneLaunch();
+        } else {
+          pStatus.innerText = '✅ Успешный взлет! Истребитель в небе!'; window.unlockAchievement('engineer');
+          pStatus.style.color = "#4ade80";
+          pPlaneEl.classList.add('plane-launch-success');
+          setTimeout(endPlaneLaunch, 2000);
+        }
+      }, 1000);
+    }
+
+    function endPlaneLaunch() {
+      setTimeout(() => {
+        pPlaneEl.classList.remove('plane-launch-success', 'launch-fail');
+        pPlaneEl.style.transition = 'none'; 
+        pPlaneEl.style.transform = 'translate(0, 0) rotate(0) scale(1)';
+        pPlaneEl.style.opacity = '1';
+        
+        setTimeout(() => {
+            pPlaneEl.style.transition = 'transform 3s ease-in, opacity 1.5s ease-in';
+        }, 50);
+
+        pLaunchBtn.disabled = false;
+        pWings.disabled = false; pPower.disabled = false; pWeight.disabled = false;
+        pStatus.innerText = "Ожидание взлета...";
+        pStatus.style.color = "var(--text)";
+      }, 2000);
+    }
+
+    // Инициализация
+    updateRocket();
+    updatePlane();
+  </script>
+  <script src="../js/gamification.js"></script>`n  <button onclick="topFunction()" id="scrollToTopBtn" title="Наверх">↑</button>
+  <script>
+    window.onscroll = function() { scrollFunction() };
+    function scrollFunction() {
+      const btn = document.getElementById("scrollToTopBtn");
+      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        btn.style.display = "block";
+      } else {
+        btn.style.display = "none";
+      }
+    }
+    function topFunction() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
+  </script>
+  <script src="../js/search.js"></script>
+  <script src="../js/mascot.js"></script>
+</body>
+</html>

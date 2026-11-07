@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Родина героев | Российская авиация и космос</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .map-container { position: relative; max-width: 1000px; margin: 0 auto; border-radius: 20px; border: 1px solid var(--border); background: var(--card-bg); box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+    .map-img { width: 100%; display: block; border-radius: 19px; }
+    .marker-wrapper { position: absolute; transform: translate(-50%, -50%); z-index: 10; }
+    .marker-wrapper:hover { z-index: 9999; }
+    .map-dot { width: 18px; height: 18px; background: var(--accent); border-radius: 50%; border: 3px solid #fff; cursor: pointer; box-shadow: 0 0 15px var(--accent); transition: all 0.3s; }
+    .marker-wrapper:hover .map-dot { transform: scale(1.5); background: var(--cyan); box-shadow: 0 0 25px var(--cyan); }
+    .tooltip { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.95); color: #fff; padding: 12px 18px; border-radius: 8px; font-size: 0.95rem; line-height: 1.5; pointer-events: none; opacity: 0; transition: opacity 0.3s; white-space: normal; width: max-content; max-width: 280px; z-index: 30; border: 1px solid var(--accent); text-align: left; box-shadow: 0 10px 25px rgba(0,0,0,0.8); }
+    .tooltip strong { color: var(--cyan); font-size: 1.05rem; display: block; margin-bottom: 5px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 5px; }
+    .marker-wrapper:hover .tooltip { opacity: 1; }
+    .tooltip-bottom { bottom: auto; top: 30px; }
+  </style>
+</head>
+<body>
+  <canvas id="star-canvas"></canvas>
+  <header>
+    <a href="../index.html" class="logo">Российская авиация и космос</a>
+    <nav>
+      <a href="../index.html">Главная</a>
+      <div class="dropdown">
+        <button class="dropbtn">Обучение ▾</button>
+        <div class="dropdown-content">
+          <a href="timeline.html">Лента времени</a>
+          <a href="heroes.html">Личности</a>
+          <a href="training.html">Подготовка</a>
+          <a href="map.html">Карта героев</a>
+          <a href="dictionary.html">Словарь</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button class="dropbtn">Игры ▾</button>
+        <div class="dropdown-content">
+          <a href="games.html">Игровая зона</a>
+          <a href="quiz.html">Квиз</a>
+          <a href="achievements.html">Достижения</a>
+          <a href="device.html">Устройство</a>
+        </div>
+      </div>
+      <a href="parents.html">О сайте</a>
+    </nav>
+  </header>
+  <main>
+    <section class="hero" style="padding: 20px 0 20px;">
+      <h1>Родина героев</h1>
+      <p>Наведи на золотые точки, чтобы узнать, откуда родом великие космонавты и авиаконструкторы</p>
+    </section>
+    <div class="map-container">
+      <img src="../img/russia.png" alt="Карта России" class="map-img">
+      <!-- Смоленская обл. -->
+      <div class="marker-wrapper" style="top: 35.4%; left: 15.3%;">
+        <div class="map-dot"></div>
+        <div class="tooltip tooltip-bottom"><strong>Смоленская обл.</strong>Юрий Гагарин<br>Марина Попович</div>
+      </div>
+
+      <!-- Москва и область -->
+      <div class="marker-wrapper" style="top: 38.9%; left: 17.6%;">
+        <div class="map-dot"></div>
+        <div class="tooltip tooltip-bottom">
+          <strong>Москва и область</strong>
+          Владимир Комаров<br>Светлана Савицкая<br>Елена Кондакова<br>Владислав Волков<br>Сергей Королёв<br>Валентина Гризодубова<br>Павел Попович<br>Иван Кожедуб<br>Георгий Добровольский
+        </div>
+      </div>
+
+      <!-- Тверская обл. -->
+      <div class="marker-wrapper" style="top: 32.2%; left: 18.6%;">
+        <div class="map-dot"></div>
+        <div class="tooltip tooltip-bottom"><strong>Тверская обл.</strong>Андрей Туполев<br>Михаил Громов</div>
+      </div>
+
+      <!-- Ярославская обл. -->
+      <div class="marker-wrapper" style="top: 35.9%; left: 21.1%;">
+        <div class="map-dot"></div>
+        <div class="tooltip tooltip-bottom"><strong>Ярославская обл.</strong>Валентина Терешкова</div>
+      </div>
+
+      <!-- Чувашия -->
+      <div class="marker-wrapper" style="top: 48.6%; left: 21.6%;">
+        <div class="map-dot"></div>
+        <div class="tooltip"><strong>Чувашия</strong>Андриян Николаев</div>
+      </div>
+
+      <!-- Алтайский край -->
+      <div class="marker-wrapper" style="top: 80.8%; left: 43.7%;">
+        <div class="map-dot"></div>
+        <div class="tooltip"><strong>Алтайский край</strong>Герман Титов</div>
+      </div>
+
+      <!-- Кемеровская обл. -->
+      <div class="marker-wrapper" style="top: 78.6%; left: 46.7%;">
+        <div class="map-dot"></div>
+        <div class="tooltip"><strong>Кемеровская обл.</strong>Алексей Леонов</div>
+      </div>
+
+      <!-- Нижегородская обл. -->
+      <div class="marker-wrapper" style="top: 44.4%; left: 21%;">
+        <div class="map-dot"></div>
+        <div class="tooltip"><strong>Нижегородская обл.</strong>Валерий Чкалов<br>Пётр Нестеров</div>
+      </div>
+
+      <!-- Тульская обл. -->
+      <div class="marker-wrapper" style="top: 39.2%; left: 15.6%;">
+        <div class="map-dot"></div>
+        <div class="tooltip"><strong>Тульская обл.</strong>Валерий Поляков</div>
+      </div>
+
+      <!-- Ленинградская обл. / СПб -->
+      <div class="marker-wrapper" style="top: 24.4%; left: 20.9%;">
+        <div class="map-dot"></div>
+        <div class="tooltip tooltip-bottom"><strong>Ленинградская обл. / СПб</strong>Сергей Крикалёв<br>Игорь Сикорский</div>
+      </div>
+
+      <!-- Краснодарский край -->
+      <div class="marker-wrapper" style="top: 54.1%; left: 6.1%;">
+        <div class="map-dot"></div>
+        <div class="tooltip"><strong>Краснодарский край</strong>Геннадий Падалка<br>Григорий Бахчиванджи<br>Владимир Коккинаки</div>
+      </div>
+
+      <!-- Крым -->
+      <div class="marker-wrapper" style="top: 47%; left: 2.6%;">
+        <div class="map-dot"></div>
+        <div class="tooltip"><strong>Крым</strong>Амет-хан Султан</div>
+      </div>
+
+      <!-- Новосибирская обл. -->
+      <div class="marker-wrapper" style="top: 73.1%; left: 41.7%;">
+        <div class="map-dot"></div>
+        <div class="tooltip"><strong>Новосибирская обл.</strong>Александр Покрышкин</div>
+      </div>
+
+      <!-- Приморский край -->
+      <div class="marker-wrapper" style="top: 92.1%; left: 85.2%;">
+        <div class="map-dot"></div>
+        <div class="tooltip"><strong>Приморский край</strong>Елена Серова</div>
+      </div>
+
+      <!-- Беларусь -->
+      <div class="marker-wrapper" style="top: 25.7%; left: 10.9%;">
+        <div class="map-dot"></div>
+        <div class="tooltip"><strong>Беларусь</strong>Павел Сухой</div>
+      </div>
+
+      <!-- Казахстан -->
+      <div class="marker-wrapper" style="top: 77%; left: 32.3%;">
+        <div class="map-dot"></div>
+        <div class="tooltip"><strong>Казахстан</strong>Виктор Пацаев</div>
+      </div>
+
+      <!-- Тимур Энеев -->
+      <div class="marker-wrapper" style="top: 68%; left: 7.8%;">
+        <div class="map-dot"></div>
+        <div class="tooltip tooltip-bottom"><strong>Тимур Энеев</strong>Родился в Чечне<br>Основную работу вёл в Москве</div>
+      </div></div>
+  </main>
+  <footer>
+    <p>Учебный проект. Источники информации: <a href="https://www.roscosmos.ru/" target="_blank">Госкорпорация «Роскосмос»</a> и <a href="https://ru.ruwiki.ru/" target="_blank">Рувики</a>.</p>
+  </footer>
+  <button onclick="topFunction()" id="scrollToTopBtn" title="Наверх">↑</button>
+  <script src="../js/stars.js"></script>
+  <script src="../js/gamification.js"></script>
+  <script>
+    window.onscroll = function() { scrollFunction() };
+    function scrollFunction() { const btn = document.getElementById("scrollToTopBtn"); if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) { btn.style.display = "block"; } else { btn.style.display = "none"; } }
+    function topFunction() { document.body.scrollTop = 0; document.documentElement.scrollTop = 0; }
+  </script>
+  <script src="../js/mascot.js"></script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Алексей Леонов | Российская космонавтика</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .zero-gravity p, 
+    .zero-gravity h2, 
+    .zero-gravity .fun-fact {
+      animation: floatText 4s ease-in-out infinite alternate;
+    }
+    .zero-gravity img {
+      animation: floatImage 6s ease-in-out infinite alternate;
+    }
+    .zero-gravity p:nth-of-type(even) {
+      animation-duration: 5s;
+      animation-delay: 0.5s;
+    }
+    @keyframes floatText {
+      0% { transform: translateY(0px); }
+      100% { transform: translateY(-8px); }
+    }
+    @keyframes floatImage {
+      0% { transform: translateY(0px) rotate(0deg); }
+      100% { transform: translateY(-15px) rotate(2deg); }
+    }
+    .clickable-title {
+      cursor: pointer;
+      transition: color 0.3s;
+      user-select: none;
+    }
+    .clickable-title:hover {
+      color: var(--cyan);
+    }
+  </style>
+</head>
+<body>
+  <canvas id="star-canvas"></canvas>
+  <header>
+    <a href="../index.html" class="logo">← На главную</a>
+    <nav>
+      <a href="../pages/timeline.html">Лента времени</a>
+      <a href="../pages/heroes.html">Личности</a>
+      <a href="../pages/device.html">Техника</a>
+      <a href="../pages/quiz.html">Квиз</a>
+      <a href="../pages/rocket.html">Игра</a>
+    </nav>
+  </header>
+  <main>
+    <article id="article-content" style="max-width: 900px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 20px; border: 1px solid var(--border); backdrop-filter: blur(10px);">
+      <h1>Алексей Леонов</h1>
+      <p style="color: var(--accent); font-size: 1.2rem; font-weight: 500;">Первый человек в истории, вышедший в открытый космос.</p>
+      
+      <img src="../img/leonov.jpg" alt="Алексей Леонов" style="display: block; max-width: 100%; max-height: 600px; width: auto; height: auto; margin: 30px auto; border-radius: 12px; border: 1px solid var(--border);">
+      
+      <h2 class="clickable-title" id="zero-gravity-trigger"><span id="zero-g-btn" style="cursor: pointer; user-select: none;">12 минут вне корабля</span></h2>
+      <p>18 марта 1965 года Алексей Леонов совершил то, что до него не делал никто — он покинул шлюз космического корабля «Восход-2» и оказался в открытом космосе. Он провёл вне корабля 12 минут и 9 секунд. В то время скафандры были ещё несовершенны, и этот выход был смертельно опасным.</p>
+      
+      <h2>Художник космоса</h2>
+      <p>Помимо полетов, Алексей Леонов был талантливым художником. Он первым начал рисовать космические пейзажи, которые видел своими глазами. Его картины хранятся в музеях и частных коллекциях по всему миру.</p>
+      
+      <div class="fun-fact" style="background: rgba(255, 183, 3, 0.1); padding: 24px; border-left: 4px solid var(--accent); border-radius: 8px; margin-top: 40px;">
+        <h3 style="margin-top: 0; color: var(--accent);">А ты знал?</h3>
+        <p style="margin-bottom: 0;">Во время выхода в космос скафандр Леонова раздулся настолько, что он не мог вернуться обратно в корабль. Ему пришлось стравить давление (выпустить часть воздуха), чтобы протиснуться в шлюз. Это был настоящий подвиг и риск для жизни!</p>
+      </div>
+    </article>
+  </main>
+  <footer>
+    <p>Учебный проект. Источники информации: <a href="https://www.roscosmos.ru/" target="_blank" rel="noopener noreferrer">Госкорпорация «Роскосмос»</a> и <a href="https://ru.ruwiki.ru/" target="_blank" rel="noopener noreferrer">Рувики</a>.</p>
+  </footer>
+  <script src="../js/stars.js"></script>
+  <script src="../js/gamification.js"></script>
+  <script>
+    document.getElementById('zero-gravity-trigger').addEventListener('click', function() {
+      const article = document.getElementById('article-content');
+      article.classList.toggle('zero-gravity');
+    });
+  </script>
+  <style>
+    /* Эффект невесомости для отдельных элементов */
+    .zero-g-active {
+      pointer-events: none; /* Отключаем клики, пока все летает */
+      overflow: hidden; /* Убираем скролл */
+    }
+    
+    @keyframes drift {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(var(--dx), var(--dy)) rotate(var(--rot)); }
+      50% { transform: translate(calc(var(--dx) * -0.5), calc(var(--dy) * -1)) rotate(calc(var(--rot) * -1)); }
+      75% { transform: translate(calc(var(--dx) * -1), calc(var(--dy) * 0.5)) rotate(var(--rot)); }
+      100% { transform: translate(0, 0) rotate(0deg); }
+    }
+    
+    .floating-item {
+      animation: drift var(--dur) ease-in-out infinite alternate;
+      animation-delay: var(--delay);
+    }
+    
+    
+  </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const btn = document.getElementById('zero-g-btn');
+      const articleContent = document.querySelector('article'); // Или 'main', если статья обернута в тег article
+      
+      if (btn && articleContent) {
+        btn.addEventListener('click', () => {
+          // Если эффект уже запущен, не запускаем повторно
+          if (articleContent.classList.contains('zero-g-active')) return;
+          
+          articleContent.classList.add('zero-g-active');
+          
+          // Выбираем все абзацы, заголовки, картинки и списки внутри статьи
+          const items = articleContent.querySelectorAll('p, h1, h2, h3, img, li');
+          
+          items.forEach(item => {
+            // Задаем случайные параметры для каждого элемента
+            const delay = (Math.random() * 2).toFixed(2) + 's';
+            const dur = (2 + Math.random() * 3).toFixed(2) + 's';
+            const dx = (Math.random() * 40 - 20).toFixed(1) + 'px';
+            const dy = (Math.random() * 40 - 20).toFixed(1) + 'px';
+            const rot = (Math.random() * 10 - 5).toFixed(1) + 'deg';
+            
+            item.style.setProperty('--delay', delay);
+            item.style.setProperty('--dur', dur);
+            item.style.setProperty('--dx', dx);
+            item.style.setProperty('--dy', dy);
+            item.style.setProperty('--rot', rot);
+            
+            item.classList.add('floating-item');
+          });
+          
+          // Через 10 секунд возвращаем все на место
+          setTimeout(() => {
+            articleContent.classList.remove('zero-g-active');
+            items.forEach(item => {
+              item.classList.remove('floating-item');
+              item.style.removeProperty('--delay');
+              item.style.removeProperty('--dur');
+              item.style.removeProperty('--dx');
+              item.style.removeProperty('--dy');
+              item.style.removeProperty('--rot');
+            });
+          }, 10000); // 10000 мс = 10 секунд
+          
+        });
+      }
+    });
+  </script>
+  <script src="../js/mascot.js"></script>
+</body>
+</html>

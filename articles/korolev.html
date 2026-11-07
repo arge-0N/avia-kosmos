@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Сергей Королёв | Российская космонавтика</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <canvas id="star-canvas"></canvas>
+  <header>
+    <a href="../index.html" class="logo">← На главную</a>
+    <nav>
+      <a href="../index.html">Главная</a>
+      <div class="dropdown">
+        <button class="dropbtn">Обучение ▾</button>
+        <div class="dropdown-content">
+          <a href="../pages/timeline.html">Лента времени</a>
+          <a href="../pages/heroes.html">Личности</a>
+          <a href="../pages/training.html">Подготовка</a>
+          <a href="../pages/map.html">Карта героев</a>
+          <a href="../pages/dictionary.html">Словарь</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button class="dropbtn">Игры ▾</button>
+        <div class="dropdown-content">
+          <a href="../pages/games.html">Игровая зона</a>
+          <a href="../pages/quiz.html">Квиз</a>
+          <a href="../pages/achievements.html">Достижения</a>
+          <a href="../pages/device.html">Устройство</a>
+        </div>
+      </div>
+      <a href="../pages/parents.html">О сайте</a>
+    </nav>
+  </header>
+  <main>
+    <article style="max-width: 900px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 20px; border: 1px solid var(--border); backdrop-filter: blur(10px);">
+      <h1>Сергей Королёв</h1>
+      <p style="color: var(--accent); font-size: 1.2rem; font-weight: 500;">Учёный, инженер, главный конструктор ракетно-космических систем СССР.</p>
+      <img src="../img/korolev.jpg" alt="Сергей Королёв" style="display: block; max-width: 100%; max-height: 600px; width: auto; height: auto; margin: 30px auto; border-radius: 12px; border: 1px solid var(--border);">
+      <h2>Мечта о звёздах</h2>
+      <p>Сергей Павлович Королёв родился в 1907 году. Основную научную и инженерную работу он вёл в Москве, где возглавлял конструкторское бюро. С юности он увлекался авиацией и планеризмом. Но его главной страстью стало космическое пространство. Под его руководством Советский Союз первым запустил искусственный спутник Земли в 1957 году.</p>
+      <h2>Первый человек в космосе</h2>
+      <p>Именно Королёв руководил подготовкой и запуском корабля «Восток-1» с Юрием Гагариным на борту 12 апреля 1961 года. Он был душой всей советской космической программы.</p>
+      <div style="background: rgba(255, 183, 3, 0.1); padding: 24px; border-left: 4px solid var(--accent); border-radius: 8px; margin-top: 40px;">
+        <h3 style="margin-top: 0; color: var(--accent);">А ты знал?</h3>
+        <p style="margin-bottom: 0;">Долгое время имя Королёва было <span id="secret-stamp-word" style="cursor: pointer;">засекречено</span>. В газетах его называли просто «главным конструктором». Весь мир узнал его имя только после его смерти.</p>
+      </div>
+    </article>
+  </main>
+  <footer>
+    <p>Учебный проект. Источники информации: <a href="https://www.roscosmos.ru/" target="_blank" rel="noopener noreferrer">Госкорпорация «Роскосмос»</a> и <a href="https://ru.ruwiki.ru/" target="_blank" rel="noopener noreferrer">Рувики</a>.</p>
+  </footer>
+  <script src="../js/stars.js"></script>
+  <script src="../js/gamification.js"></script>
+  <script src="../js/search.js"></script>  <style>
+    #secret-stamp-word {
+      cursor: pointer;
+    }
+    .stamp-effect {
+      position: fixed;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(1.4) rotate(-8deg);
+      color: #8b1a1a;
+      font-size: 3.2rem;
+      font-weight: 900;
+      padding: 18px 38px;
+      z-index: 9999;
+      text-transform: uppercase;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 6px;
+      background:
+        repeating-linear-gradient(
+          45deg,
+          rgba(0,0,0,0.02) 0px,
+          rgba(0,0,0,0.02) 2px,
+          transparent 2px,
+          transparent 4px
+        ),
+        #e8e0d0;
+      border: 4px solid #8b1a1a;
+      outline: 2px solid #8b1a1a;
+      outline-offset: 4px;
+      border-radius: 2px;
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      pointer-events: none;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+      user-select: none;
+      text-shadow: 0.5px 0.5px 0 rgba(139, 26, 26, 0.3);
+      filter: contrast(1.1);
+    }
+    .stamp-effect::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(139,26,26,0.15) 0%, transparent 25%),
+        radial-gradient(circle at 80% 70%, rgba(139,26,26,0.15) 0%, transparent 25%),
+        radial-gradient(circle at 60% 20%, rgba(0,0,0,0.08) 0%, transparent 20%);
+      pointer-events: none;
+    }
+    .stamp-effect.show {
+      opacity: 0.92;
+      transform: translate(-50%, -50%) scale(1) rotate(-8deg);
+    }
+  </style>
+  
+  
+  
+  
+    
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const word = document.getElementById('secret-stamp-word');
+      if (word) {
+        word.addEventListener('click', () => {
+          const stamp = document.createElement('div');
+          stamp.className = 'stamp-effect';
+          stamp.innerText = 'СЕКРЕТНО';
+          document.body.appendChild(stamp);
+          setTimeout(() => stamp.classList.add('show'), 50);
+          setTimeout(() => {
+            stamp.classList.remove('show');
+            setTimeout(() => stamp.remove(), 400);
+          }, 2000);
+        });
+      }
+    });
+  </script>
+  <script src="../js/mascot.js"></script>
+</body>
+</html>

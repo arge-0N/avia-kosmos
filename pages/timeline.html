@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Лента времени | Российская авиация и космос</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .v-timeline { position: relative; max-width: 900px; margin: 40px auto; padding-left: 30px; border-left: 3px solid var(--accent); }
+    .v-item { position: relative; margin-bottom: 50px; }
+    .v-item::before { content: ''; position: absolute; left: -39px; top: 5px; width: 18px; height: 18px; border-radius: 50%; background: var(--accent); border: 4px solid var(--bg-dark); box-shadow: 0 0 15px var(--accent); }
+    .v-year { font-size: 2.2rem; font-weight: 900; color: var(--accent); margin-bottom: 15px; text-shadow: 0 0 10px rgba(255, 183, 3, 0.4); }
+    .v-content { background: var(--card-bg); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 25px; border-radius: 16px; border: 1px solid var(--border); box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
+    .v-content h3 { margin-top: 0; margin-bottom: 12px; color: #fff; font-size: 1.6rem; }
+    .v-content p { margin-bottom: 15px; color: var(--text-muted); }
+    .v-content ul { margin: 0; padding-left: 20px; color: var(--text); }
+    .v-content li { margin-bottom: 10px; line-height: 1.6; }
+    .v-content li strong { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <canvas id="star-canvas"></canvas>
+  <header>
+    <a href="../index.html" class="logo">Российская авиация и космос</a>
+    <nav>
+      <a href="../index.html">Главная</a>
+      <div class="dropdown">
+        <button class="dropbtn">Обучение ▾</button>
+        <div class="dropdown-content">
+          <a href="timeline.html">Лента времени</a>
+          <a href="heroes.html">Личности</a>
+          <a href="training.html">Подготовка</a>
+          <a href="map.html">Карта героев</a>
+          <a href="dictionary.html">Словарь</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button class="dropbtn">Игры ▾</button>
+        <div class="dropdown-content">
+          <a href="games.html">Игровая зона</a>
+          <a href="quiz.html">Квиз</a>
+          <a href="achievements.html">Достижения</a>
+          <a href="device.html">Устройство</a>
+        </div>
+      </div>
+      <a href="parents.html">О сайте</a>
+    </nav>
+  </header>
+  <main>
+    <section class="hero" style="padding: 20px 0 40px;">
+      <h1>Лента времени</h1>
+      <p>Главные события в истории отечественной авиации и космонавтики</p>
+    </section>
+    <div class="v-timeline">
+      
+      <div class="v-item">
+        <div class="v-year">1745–1885</div>
+        <div class="v-content">
+          <h3>Зарождение воздухоплавания и первые проекты</h3>
+          <ul>
+            <li><strong>1745:</strong> Михаил Ломоносов публикует научный труд о свойствах воздуха.</li>
+            <li><strong>1804:</strong> Первый в России полёт на воздушном шаре с научными целями.</li>
+            <li><strong>1882:</strong> Александр Можайский строит первый в мире летательный аппарат, похожий на современный самолёт.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="v-item">
+        <div class="v-year">1912–1914</div>
+        <div class="v-content">
+          <h3>Рождение военной и гражданской авиации</h3>
+          <ul>
+            <li><strong>1912:</strong> Создана Воздухоплавательная часть — официальный день рождения военной авиации России.</li>
+            <li><strong>1913:</strong> Игорь Сикорский создаёт первый в мире многомоторный самолёт «Русский витязь». Пётр Нестеров впервые выполняет «мёртвую петлю».</li>
+            <li><strong>1914:</strong> Нестеров совершает первый в истории воздушный таран.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="v-item">
+        <div class="v-year">1920–1930-е</div>
+        <div class="v-content">
+          <h3>Становление советской авиации</h3>
+          <ul>
+            <li><strong>1920:</strong> Принята государственная программа по развитию авиационной промышленности.</li>
+            <li><strong>1923:</strong> Образовано общество «Добролёт» (будущий «Аэрофлот»).</li>
+            <li><strong>1937:</strong> Экипаж Валерия Чкалова совершает первый беспосадочный перелёт из Москвы в США через Северный полюс.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="v-item">
+        <div class="v-year">1941–1945</div>
+        <div class="v-content">
+          <h3>Авиация в годы Великой Отечественной войны</h3>
+          <ul>
+            <li>На заводах массово выпускаются истребители Як-1 и ЛаГГ-3, штурмовики Ил-2, бомбардировщики Пе-2.</li>
+            <li>Лётчики-асы Александр Покрышкин и Иван Кожедуб становятся символами мужества и мастерства советской авиации.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="v-item">
+        <div class="v-year">1957–1961</div>
+        <div class="v-content">
+          <h3>Начало космической эры</h3>
+          <ul>
+            <li><strong>1957:</strong> Запущен первый искусственный спутник Земли. В космос отправляется собака Лайка.</li>
+            <li><strong>1960:</strong> Белка и Стрелка совершают орбитальный полёт и благополучно возвращаются на Землю.</li>
+            <li><strong>1961:</strong> Юрий Гагарин совершает первый полёт человека в космос. Герман Титов — первый суточный полёт.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="v-item">
+        <div class="v-year">1963–1965</div>
+        <div class="v-content">
+          <h3>Первые женщины и выход в открытый космос</h3>
+          <ul>
+            <li><strong>1963:</strong> Валентина Терешкова становится первой женщиной-космонавтом.</li>
+            <li><strong>1964:</strong> Полёт первого многоместного корабля «Восход».</li>
+            <li><strong>1965:</strong> Алексей Леонов совершает первый выход человека в открытый космос.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="v-item">
+        <div class="v-year">1971–1975</div>
+        <div class="v-content">
+          <h3>Орбитальные станции и международные миссии</h3>
+          <ul>
+            <li><strong>1971:</strong> Запущена первая в мире орбитальная станция «Салют-1».</li>
+            <li><strong>1975:</strong> Историческая стыковка «Союз» — «Аполлон». Станция «Венера-9» передаёт первые панорамы Венеры.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="v-item">
+        <div class="v-year">1986–1988</div>
+        <div class="v-content">
+          <h3>Станция «Мир» и «Буран»</h3>
+          <ul>
+            <li><strong>1986:</strong> Запущена орбитальная станция «Мир».</li>
+            <li><strong>1988:</strong> Космический корабль «Буран» совершает полёт в полностью автоматическом режиме.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="v-item">
+        <div class="v-year">1998–2021</div>
+        <div class="v-content">
+          <h3>Международное сотрудничество и современные рекорды</h3>
+          <ul>
+            <li><strong>1998:</strong> Начало сборки МКС (Международной космической станции).</li>
+            <li><strong>2001:</strong> Первый космический турист — Деннис Тито.</li>
+            <li><strong>2019:</strong> Запущена космическая обсерватория «Спектр-РГ» для изучения Вселенной.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="v-item">
+        <div class="v-year">2024–2026</div>
+        <div class="v-content">
+          <h3>Новые горизонты: Российская орбитальная станция</h3>
+          <ul>
+            <li><strong>2024:</strong> Утверждён национальный проект «Космос».</li>
+            <li><strong>2025:</strong> Принято решение о создании РОС (Российской орбитальной станции).</li>
+            <li><strong>2026:</strong> Объявлены планы по развёртыванию РОС (Российской орбитальной станции) с 2028 года. Продолжается обсуждение продления работы МКС (Международной космической станции).</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </main>
+  <footer>
+    <p>Учебный проект. Источники информации: <a href="https://www.roscosmos.ru/" target="_blank" rel="noopener noreferrer">Госкорпорация «Роскосмос»</a> и <a href="https://ru.ruwiki.ru/" target="_blank" rel="noopener noreferrer">Рувики</a>.</p>
+  </footer>
+  <script src="../js/stars.js"></script>
+  <script src="../js/gamification.js"></script>`n  <button onclick="topFunction()" id="scrollToTopBtn" title="Наверх">↑</button>
+  <script>
+    window.onscroll = function() { scrollFunction() };
+    function scrollFunction() {
+      const btn = document.getElementById("scrollToTopBtn");
+      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        btn.style.display = "block";
+      } else {
+        btn.style.display = "none";
+      }
+    }
+    function topFunction() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
+  </script>
+  <script src="../js/search.js"></script>
+  <script src="../js/mascot.js"></script>
+</body>
+</html>

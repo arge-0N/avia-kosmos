@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>О сайте | Российская авиация и космос</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .info-container { 
+      background: var(--glass-bg); 
+      backdrop-filter: blur(16px); 
+      padding: 40px; 
+      border-radius: 20px; 
+      border: 1px solid var(--border); 
+      max-width: 900px; 
+      margin: 0 auto; 
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5); 
+    }
+    .info-container h2 { 
+      color: var(--accent); 
+      margin-top: 40px; 
+      border-bottom: 2px solid var(--border); 
+      padding-bottom: 10px; 
+      font-size: 1.6rem; 
+    }
+    .info-container h2:first-child { margin-top: 0; }
+    .info-container p, .info-container li { 
+      font-size: 1.1rem; 
+      line-height: 1.7; 
+      color: var(--text-muted); 
+    }
+    .info-container ul { padding-left: 20px; }
+    .info-container li { margin-bottom: 12px; }
+    .info-container strong { color: var(--text); }
+    
+    .highlight-box { 
+      background: rgba(255, 183, 3, 0.08); 
+      border-left: 4px solid var(--accent); 
+      padding: 24px; 
+      border-radius: 8px; 
+      margin: 20px 0; 
+      color: var(--text); 
+    }
+    .highlight-box h3 { margin-top: 0; color: var(--accent); }
+    
+  </style>
+</head>
+<body>
+  <canvas id="star-canvas"></canvas>
+  
+  <header>
+    <a href="../index.html" class="logo">Российская авиация и космос</a>
+    <nav>
+      <a href="../index.html">Главная</a>
+      <div class="dropdown">
+        <button class="dropbtn">Обучение ▾</button>
+        <div class="dropdown-content">
+          <a href="timeline.html">Лента времени</a>
+          <a href="heroes.html">Личности</a>
+          <a href="training.html">Подготовка</a>
+          <a href="map.html">Карта героев</a>
+          <a href="dictionary.html">Словарь</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button class="dropbtn">Игры ▾</button>
+        <div class="dropdown-content">
+          <a href="games.html">Игровая зона</a>
+          <a href="quiz.html">Квиз</a>
+          <a href="achievements.html">Достижения</a>
+          <a href="device.html">Устройство</a>
+        </div>
+      </div>
+      <a href="parents.html">О сайте</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" style="padding: 20px 0 40px;">
+      <h1>О сайте</h1>
+      <p>Образовательный проект по истории авиации и космонавтики</p>
+    </section>
+
+    <div class="info-container">
+      <h2>Для чего создан этот сайт?</h2>
+      <p>Наш проект — это увлекательное путешествие в историю отечественной авиации и космонавтики, созданное специально для детей и подростков. Мы отказались от скучного формата энциклопедии, чтобы сделать обучение интересным.</p>
+      <p>Здесь можно найти биографии великих конструкторов и космонавтов, изучить устройство ракет и самолетов, а также проверить свои знания в игровой форме.</p>
+
+      <h2>Карта сайта: что тут есть?</h2>
+      <ul>
+        <li><strong>Обучение:</strong> Лента времени с главными событиями, статьи о героях, интерактивная карта России, где они родились и работали, а также космический словарь с объяснением сложных терминов.</li>
+        <li><strong>Игры:</strong> Аркада «Космический рейс», Авиаконструктор (собери свою ракету или самолет), интерактивная схема «Устройство техники» и Квиз с таймером.</li>
+        <li><strong>Достижения:</strong> За успешное прохождение игр, квизов и чтение статей начисляются медали. Попробуйте собрать их все!</li>
+      </ul>
+
+      <h2>Безопасность и приватность</h2>
+      <p>Сайт является полностью безопасным образовательным ресурсом. Мы <strong>не собираем</strong> персональные данные, не используем сложные системы регистрации и не показываем рекламу.</p>
+      <p>Все достижения (медали) сохраняются только в локальной памяти вашего браузера (localStorage). Это значит, что данные не уходят на сервер, но и не переносятся при смене устройства.</p>
+
+      <h2>Об авторе</h2>
+      <div class="highlight-box">
+        <h3>Павлов Андрей Эдуардович</h3>
+        <p style="margin-bottom: 0;">Этот сайт был разработан в рамках учебного проекта учеником центра дополнительного образования «Солнечный город».</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>Учебный проект. Источники информации: 
+      <a href="https://www.roscosmos.ru/" target="_blank" rel="noopener noreferrer">Госкорпорация «Роскосмос»</a> и 
+      <a href="https://ru.ruwiki.ru/" target="_blank" rel="noopener noreferrer">Рувики</a>.
+    </p>
+  </footer>
+
+  <button onclick="topFunction()" id="scrollToTopBtn" title="Наверх">↑</button>
+  <script src="../js/stars.js"></script>
+  <script src="../js/gamification.js"></script>
+  <script>
+    window.onscroll = function() { scrollFunction() };
+    function scrollFunction() {
+      const btn = document.getElementById("scrollToTopBtn");
+      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        btn.style.display = "block";
+      } else {
+        btn.style.display = "none";
+      }
+    }
+    function topFunction() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
+  </script>
+  <script src="../js/search.js"></script>
+  <script src="../js/mascot.js"></script>
+</body>
+</html>

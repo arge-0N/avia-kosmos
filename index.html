@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>История российской авиации и космонавтики</title>
+  <link rel="stylesheet" href="css/style.css">
+  
+  <style>
+    body { position: relative; margin: 0; padding: 0; overflow-x: hidden; }
+    
+    /* Логотип слева */
+    .logo-wrapper { position: absolute; top: 120px; left: 2vw; z-index: 50; }
+    .hero-logo { width: clamp(180px, 18vw, 350px); height: auto; display: block; }
+    
+    /* Гагарин справа */
+    .gagarin-wrapper { position: absolute; top: 120px; right: 2vw; z-index: 50; pointer-events: none; }
+    .gagarin-image { height: clamp(300px, 40vw, 600px); width: auto; display: block; filter: drop-shadow(0 0 30px rgba(255, 183, 3, 0.5)); }
+    
+    /* Главный экран */
+    .hero { position: relative; display: flex; align-items: center; justify-content: center; min-height: 600px; padding: 60px 20px; }
+    .hero-content { position: relative; z-index: 10; max-width: 650px; margin: 0 auto; text-align: center; }
+    
+    /* Блок с автором */
+    .author-credit {
+      background: rgba(255, 183, 3, 0.08); border: 1px solid var(--border); border-left: 5px solid var(--accent);
+      padding: 20px 30px; border-radius: 12px; text-align: center; max-width: 700px;
+      margin: 0 auto 40px auto; backdrop-filter: blur(10px); position: relative; z-index: 10;
+    }
+    .author-credit p { margin: 5px 0; color: var(--text); font-size: 1.2rem; }
+    .author-credit strong { color: var(--accent); font-size: 1.5rem; font-family: 'Montserrat', sans-serif; }
+    .author-credit .school-name { font-size: 1.1rem; color: var(--text-muted); margin-top: 10px; }
+
+    @media (max-width: 1400px) { .gagarin-wrapper { display: none; } }
+    @media (max-width: 1100px) {
+      .logo-wrapper { position: static; margin: 20px auto 30px auto; text-align: center; }
+      .hero-logo { width: 200px; margin: 0 auto; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="star-canvas"></canvas>
+  
+  <div class="logo-wrapper">
+    <a href="https://solnechnyjgorodkbr.ru" target="_blank" rel="noopener noreferrer">
+      <img src="img/logo.png" alt="Солнечный город" class="hero-logo">
+    </a>
+  </div>
+
+  <div class="gagarin-wrapper">
+    <img src="img/gagarin-hero.png" alt="Юрий Гагарин" class="gagarin-image">
+  </div>
+
+  <header>
+    <a href="index.html" class="logo">Российская авиация и космос</a>
+    <nav>
+      <a href="index.html">Главная</a>
+      <div class="dropdown">
+        <button class="dropbtn">Обучение ▾</button>
+        <div class="dropdown-content">
+          <a href="pages/timeline.html">Лента времени</a>
+          <a href="pages/heroes.html">Личности</a>
+          <a href="pages/training.html">Подготовка</a>
+          <a href="pages/map.html">Карта героев</a>
+          <a href="pages/dictionary.html">Словарь</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button class="dropbtn">Игры ▾</button>
+        <div class="dropdown-content">
+          <a href="pages/games.html">Игровая зона</a>
+          <a href="pages/quiz.html">Квиз</a>
+          <a href="pages/achievements.html">Достижения</a>
+          <a href="pages/device.html">Устройство</a>
+        </div>
+      </div>
+      <a href="pages/parents.html">О сайте</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <h1>История российской авиации и космонавтики</h1>
+        <p>От первых многомоторных самолётов до первых спутников и полётов к звёздам.</p>
+        <a href="pages/timeline.html" class="btn">Начать путешествие</a>
+      </div>
+    </section>
+
+    <div class="author-credit">
+      <p>Сайт разработал</p>
+      <p><strong>Павлов Андрей Эдуардович</strong></p>
+      <p class="school-name">Ученик центра дополнительного образования «Солнечный город»</p>
+    </div>
+
+    <section>
+      <h2>Лента времени</h2>
+      <div class="timeline-wrapper">
+        <div class="timeline">
+          <a href="pages/timeline.html" class="timeline-item"><span class="year">1913</span><p>«Русский витязь»</p></a>
+          <a href="pages/timeline.html" class="timeline-item"><span class="year">1937</span><p>Перелёт Чкалова</p></a>
+          <a href="pages/timeline.html" class="timeline-item"><span class="year">1957</span><p>Первый спутник</p></a>
+          <a href="pages/timeline.html" class="timeline-item"><span class="year">1960</span><p>Белка и Стрелка</p></a>
+          
+          <a href="pages/timeline.html" class="timeline-more" style="flex: 0 0 160px; min-height: auto;">
+            <span class="arrow">→</span>
+            <span>Все события</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Выдающиеся личности</h2>
+      <div class="stories">
+        <!-- ИМЕНА ВОЗВРАЩЕНЫ -->
+        <article class="card">
+          <h3>Юрий Гагарин</h3>
+          <p>Первый человек в мировой истории, совершивший полёт в космическое пространство.</p>
+          <a href="articles/gagarin.html">Читать →</a>
+        </article>
+        
+        <article class="card">
+          <h3>Сергей Королёв</h3>
+          <p>Главный конструктор ракетно-космических систем, отец советской космонавтики.</p>
+          <a href="articles/korolev.html">Читать →</a>
+        </article>
+
+        <article class="card">
+          <h3>Валерий Чкалов</h3>
+          <p>Легендарный лётчик-испытатель, совершивший первый беспосадочный перелёт через Северный полюс.</p>
+          <a href="articles/chkalov.html">Читать →</a>
+        </article>
+
+        <article class="card">
+          <h3>Павел Сухой</h3>
+          <p>Авиаконструктор, создавший легендарные истребители и бомбардировщики марки «Су».</p>
+          <a href="articles/sukhoi.html">Читать →</a>
+        </article>
+
+        <a href="pages/heroes.html" class="timeline-more" style="flex: 1 1 300px; min-height: 200px; margin-bottom: 40px;">
+          <span class="arrow">→</span>
+          <span>Все личности</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Учебный проект. Источники информации: 
+      <a href="https://www.roscosmos.ru/" target="_blank" rel="noopener noreferrer">Госкорпорация «Роскосмос»</a> и 
+      <a href="https://ru.ruwiki.ru/" target="_blank" rel="noopener noreferrer">Рувики</a>.
+    </p>
+  </footer>
+
+  <!-- Подключаем звезды и скрипт геймификации -->
+  <script src="js/stars.js"></script>
+  <script src="js/gamification.js"></script>
+  
+  <!-- Кнопка Наверх -->
+  <button onclick="topFunction()" id="scrollToTopBtn" title="Наверх">↑</button>
+  <script>
+    window.onscroll = function() { scrollFunction() };
+    function scrollFunction() {
+      const btn = document.getElementById("scrollToTopBtn");
+      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        btn.style.display = "block";
+      } else {
+        btn.style.display = "none";
+      }
+    }
+    function topFunction() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
+  </script>
+  <script src="js/search.js"></script>
+  <script src="js/mascot.js"></script>
+</body>
+</html>
