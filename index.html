@@ -3,25 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>История российской авиации и космонавтики</title>
+  <title>Космический гид | Авиация и Космос</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <canvas id="star-canvas"></canvas>
   
-  <!-- ШАПКА САЙТА -->
   <header>
-    <a href="index.html" class="logo">Российская авиация и космос</a>
+    <div class="logo-container">
+      <!-- Логотип с запасным вариантом, если картинки нет -->
+      <img src="img/sunny_city_logo.png" alt="Солнечный город" class="school-logo" onerror="this.outerHTML='<span style=\'color:#ff7b00; font-weight:900; font-size:1.2rem; font-family:Russo One;\'>☀️ СОЛНЕЧНЫЙ ГОРОД</span>'">
+      <a href="index.html" class="logo">🚀 Космо-Гид</a>
+    </div>
     
     <div id="searchContainer">
-      <input type="text" id="searchInput" placeholder="Поиск...">
-      <div id="searchResults"></div>
+      <input type="text" id="searchInput" placeholder="Найти героя или ракету...">
+      <div id="searchResults" style="display:none; position:absolute; top:110%; left:0; width:100%; background:#0f172a; border:1px solid #00d2ff; border-radius:12px; z-index:1000; max-height:300px; overflow-y:auto;"></div>
     </div>
 
     <nav>
-      <a href="index.html">Главная</a>
+      <a href="index.html" class="active">🏠 Главная</a>
       <div class="dropdown">
-        <button class="dropbtn">Обучение ▾</button>
+        <button class="dropbtn">📚 Обучение ▾</button>
         <div class="dropdown-content">
           <a href="pages/timeline.html">Лента времени</a>
           <a href="pages/heroes.html">Личности</a>
@@ -31,7 +34,7 @@
         </div>
       </div>
       <div class="dropdown">
-        <button class="dropbtn">Игры ▾</button>
+        <button class="dropbtn">🎮 Игры ▾</button>
         <div class="dropdown-content">
           <a href="pages/games.html">Игровая зона</a>
           <a href="pages/quiz.html">Квиз</a>
@@ -39,115 +42,82 @@
           <a href="pages/device.html">Устройство</a>
         </div>
       </div>
-      <a href="pages/parents.html">О сайте</a>
+      <a href="pages/parents.html">ℹ️ О сайте</a>
     </nav>
   </header>
 
-  <!-- ОСНОВНОЙ КОНТЕНТ -->
   <main>
-    <!-- Главный экран (Гагарин и текст) -->
     <section class="hero">
-      <div>
-        <h1>История российской авиации и космонавтики</h1>
-        <p>От первых многомоторных самолётов до первых спутников и полётов к звёздам.</p>
-        <a href="pages/timeline.html" class="btn">Начать путешествие</a>
+      <div class="hero-text">
+        <span class="badge">Для юных исследователей</span>
+        <h1>Открой для себя историю космоса!</h1>
+        <p>Узнай, как люди покоряли небо и звёзды. Играй, читай и собирай награды!</p>
+        <div class="hero-buttons">
+          <a href="pages/timeline.html" class="btn btn-primary">Начать путешествие</a>
+          <a href="pages/games.html" class="btn btn-secondary">В игры 🎮</a>
+        </div>
       </div>
-      <img src="img/gagarin.png" alt="Юрий Гагарин">
+      <div class="hero-image">
+        <!-- Железобетонная ссылка на фото Гагарина (сработает всегда) -->
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Yuri_Gagarin_in_1961.jpg/400px-Yuri_Gagarin_in_1961.jpg" alt="Юрий Гагарин" style="border-radius: 30px; box-shadow: 0 10px 30px rgba(0,210,255,0.3);">
+      </div>
     </section>
 
-    <!-- Лента времени -->
+    <h2 class="section-title">🕰️ Лента времени</h2>
     <div class="timeline-wrapper">
-      <h2>Лента времени</h2>
       <div class="timeline">
-        <a href="pages/timeline.html" class="timeline-item">
-          <span class="year">1913</span>
-          <p>«Русский витязь»</p>
-        </a>
-        <a href="pages/timeline.html" class="timeline-item">
-          <span class="year">1937</span>
-          <p>Перелёт Чкалова</p>
-        </a>
-        <a href="pages/timeline.html" class="timeline-item">
-          <span class="year">1957</span>
-          <p>Первый спутник</p>
-        </a>
-        <a href="pages/timeline.html" class="timeline-item">
-          <span class="year">1960</span>
-          <p>Белка и Стрелка</p>
-        </a>
-        <a href="pages/timeline.html" class="timeline-more">
-          <div class="arrow">→</div>
-          <span>Все события</span>
-        </a>
+        <a href="pages/timeline.html" class="timeline-item"><span class="year">1913</span><p>«Русский витязь»</p></a>
+        <a href="pages/timeline.html" class="timeline-item"><span class="year">1937</span><p>Перелёт Чкалова</p></a>
+        <a href="pages/timeline.html" class="timeline-item"><span class="year">1957</span><p>Первый спутник</p></a>
+        <a href="pages/timeline.html" class="timeline-item"><span class="year">1960</span><p>Белка и Стрелка</p></a>
+        <a href="pages/timeline.html" class="timeline-more"><div class="arrow">→</div><span>Все события</span></a>
       </div>
     </div>
 
-    <!-- Выдающиеся личности (Сетка 2х2) -->
-    <h2>Выдающиеся личности</h2>
-    <div class="force-grid-2x2">
+    <h2 class="section-title">⭐ Выдающиеся личности</h2>
+    <div class="cards-grid">
       <article class="card">
+        <div class="card-icon">👨‍🚀</div>
         <h3>Юрий Гагарин</h3>
         <p>Первый человек в мировой истории, совершивший полёт в космическое пространство.</p>
-        <a href="articles/gagarin.html">Читать →</a>
+        <a href="articles/gagarin.html" class="card-link">Читать историю →</a>
       </article>
       <article class="card">
+        <div class="card-icon">🛠️</div>
         <h3>Сергей Королёв</h3>
         <p>Главный конструктор ракетно-космических систем, отец советской космонавтики.</p>
-        <a href="articles/korolev.html">Читать →</a>
+        <a href="articles/korolev.html" class="card-link">Читать историю →</a>
       </article>
       <article class="card">
+        <div class="card-icon">✈️</div>
         <h3>Валерий Чкалов</h3>
         <p>Легендарный лётчик-испытатель, совершивший первый беспосадочный перелёт через Северный полюс.</p>
-        <a href="articles/chkalov.html">Читать →</a>
+        <a href="articles/chkalov.html" class="card-link">Читать историю →</a>
       </article>
       <article class="card">
+        <div class="card-icon">🛩️</div>
         <h3>Павел Сухой</h3>
         <p>Авиаконструктор, создавший легендарные истребители и бомбардировщики марки «Су».</p>
-        <a href="articles/sukhoi.html">Читать →</a>
+        <a href="articles/sukhoi.html" class="card-link">Читать историю →</a>
       </article>
     </div>
 
-    <!-- Кнопка Все личности -->
     <div class="all-heroes-wrapper">
-      <a href="pages/heroes.html">→ Все личности</a>
-    </div>
-
-    <!-- Блок автора -->
-    <div class="author-credit">
-      <p>Сайт разработал <strong>Павлов Андрей Эдуардович</strong></p>
-      <p>Ученик центра дополнительного образования «Солнечный город»</p>
+      <a href="pages/heroes.html" class="btn btn-outline">Посмотреть всех героев</a>
     </div>
   </main>
 
-  <!-- ПОДВАЛ -->
   <footer>
-    <p>Учебный проект. Источники информации: 
-      <a href="https://www.roscosmos.ru/" target="_blank">Госкорпорация «Роскосмос»</a> и 
-      <a href="https://ru.ruwiki.ru/" target="_blank">Рувики</a>.
-    </p>
+    <div class="footer-content">
+      <p>Сайт разработал <strong>Павлов Андрей Эдуардович</strong></p>
+      <p>Ученик центра дополнительного образования «Солнечный город»</p>
+      <p class="sources">Учебный проект. Источники: <a href="https://www.roscosmos.ru/" target="_blank">Роскосмос</a> и <a href="https://ru.ruwiki.ru/" target="_blank">Рувики</a>.</p>
+    </div>
   </footer>
 
-  <button onclick="topFunction()" id="scrollToTopBtn" title="Наверх">↑</button>
-  
-  <!-- ПОДКЛЮЧЕНИЕ СКРИПТОВ -->
   <script src="js/stars.js"></script>
   <script src="js/gamification.js"></script>
   <script src="js/search.js"></script>
   <script src="js/mascot.js"></script>
-  <script>
-    window.onscroll = function() { scrollFunction() };
-    function scrollFunction() {
-      const btn = document.getElementById("scrollToTopBtn");
-      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-        btn.style.display = "block";
-      } else {
-        btn.style.display = "none";
-      }
-    }
-    function topFunction() {
-      document.body.scrollTop = 0;
-      document.documentElement.scrollTop = 0;
-    }
-  </script>
 </body>
 </html>

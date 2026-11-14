@@ -35,4 +35,15 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         if (readArticles.length >= 3) setTimeout(() => window.unlockAchievement('reader'), 1000);
     }
+});// Автоматическая выдача достижения за посещение игровой зоны
+document.addEventListener('DOMContentLoaded', () => {
+    if (window.location.pathname.includes('games.html')) {
+        let unlocked = JSON.parse(localStorage.getItem('unlocked_achievements')) || [];
+        if (!unlocked.includes('games_visited')) {
+            unlocked.push('games_visited');
+            localStorage.setItem('unlocked_achievements', JSON.stringify(unlocked));
+            console.log('Достижение "В игровой зоне" получено!');
+            if (window.mascotSpeak) window.mascotSpeak("Ура! Ты зашел в игровую зону! Достижение получено! 🎮");
+        }
+    }
 });

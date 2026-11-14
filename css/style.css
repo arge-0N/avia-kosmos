@@ -1,424 +1,347 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Russo+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800;900&family=Russo+One&display=swap');
 
 :root {
-  --bg-dark: #050814;
-  --bg-light: #0f172a;
-  --text: #ffffff;
+  --text-main: #ffffff;
   --text-muted: #cbd5e1;
-  --accent: #ffb703;
-  --cyan: #00f0ff;
-  --border: rgba(255, 255, 255, 0.2);
-  --glass-bg: rgba(15, 23, 42, 0.85);
+  --primary: #ff7b00;      /* Энергичный оранжевый */
+  --secondary: #00d2ff;    /* Яркий бирюзовый */
+  --accent: #ffd60a;       /* Солнечно-желтый */
+  --glass-bg: rgba(15, 23, 42, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.15);
 }
 
-* { box-sizing: border-box; }
-html { font-size: 16px; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 18px; scroll-behavior: smooth; }
 
 body {
-  margin: 0;
-  background-color: var(--bg-dark);
-  background-image: radial-gradient(circle at top, #1e293b 0%, var(--bg-dark) 100%);
+  /* ГЛУБОКИЙ КОСМОС С СИНИМИ И ОРАНЖЕВЫМИ ТУМАННОСТЯМИ */
+  background-color: #050814;
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(0, 210, 255, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(255, 123, 0, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(30, 41, 59, 0.8) 0%, transparent 100%),
+    linear-gradient(135deg, #020617, #0f172a, #1e1b4b);
   background-attachment: fixed;
-  color: var(--text);
-  font-family: 'Inter', system-ui, sans-serif;
-  line-height: 1.7;
+  color: var(--text-main);
+  font-family: 'Nunito', sans-serif;
+  line-height: 1.6;
   min-height: 100vh;
   overflow-x: hidden;
 }
 
-#star-canvas {
-  position: fixed !important;
-  top: 0; left: 0; width: 100vw; height: 100vh;
-  z-index: -1 !important;
-  pointer-events: none;
-}
+#star-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; }
 
-h1, h2, h3, .logo, .year, .btn {
-  font-family: 'Russo One', sans-serif;
-  letter-spacing: 0.5px;
-  line-height: 1.3;
-  margin-top: 0;
-}
+h1, h2, h3, .logo, .year, .btn, .dropbtn { font-family: 'Russo One', sans-serif; letter-spacing: 1px; }
 
-p, li, td, th { font-size: 1.05rem; color: var(--text-muted); }
-img { max-width: 100% !important; height: auto !important; }
+img { max-width: 100%; height: auto; }
+a { text-decoration: none; }
 
+/* ШАПКА */
 header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 40px;
-  border-bottom: 1px solid var(--border);
-  background: rgba(5, 8, 20, 0.9);
-  backdrop-filter: blur(12px);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  flex-wrap: wrap;
-  gap: 15px;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 15px 40px; background: rgba(5, 8, 20, 0.8);
+  backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+  border-bottom: 1px solid var(--glass-border);
+  position: sticky; top: 0; z-index: 100; flex-wrap: wrap; gap: 15px;
 }
 
-.logo {
-  font-size: 1.4rem;
-  text-transform: uppercase;
-  background: linear-gradient(90deg, #fff, var(--cyan));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  white-space: nowrap;
-}
+.logo { font-size: 1.6rem; color: #fff; text-shadow: 0 0 15px var(--secondary); }
 
-nav { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+nav { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
 nav a, .dropbtn {
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--text);
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid var(--border);
-  transition: all 0.3s;
-  text-decoration: none;
-  cursor: pointer;
+  padding: 10px 18px; border-radius: 12px; font-size: 1rem;
+  color: #fff; background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border); transition: all 0.3s; cursor: pointer;
 }
-nav a:hover, .dropbtn:hover { background: var(--accent); color: var(--bg-dark); border-color: var(--accent); }
+nav a:hover, .dropbtn:hover, nav a.active {
+  background: var(--primary); color: #fff; border-color: var(--primary);
+  box-shadow: 0 0 20px rgba(255, 123, 0, 0.4); transform: translateY(-2px);
+}
 
-main { max-width: 1400px; margin: 0 auto; padding: 40px; position: relative; z-index: 1; }
+.dropdown { position: relative; }
+.dropdown-content {
+  display: none; position: absolute; background: rgba(15, 23, 42, 0.98);
+  min-width: 220px; border: 1px solid var(--primary); border-radius: 12px;
+  top: 100%; left: 0; margin-top: 10px; padding: 10px 0; z-index: 200;
+  backdrop-filter: blur(10px); box-shadow: 0 0 20px rgba(255, 123, 0, 0.2);
+}
+.dropdown:hover .dropdown-content { display: block; animation: fadeIn 0.3s; }
+.dropdown-content a {
+  display: block; padding: 12px 20px; color: #fff; border: none;
+  border-radius: 0; background: transparent; font-size: 1rem;
+}
+.dropdown-content a:hover { background: rgba(255, 123, 0, 0.15); color: var(--primary); }
+
+/* ОСНОВНОЙ КОНТЕНТ */
+main { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+
+.section-title {
+  font-size: 2.2rem; margin: 60px 0 25px;
+  display: flex; align-items: center; gap: 10px; color: #fff;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+.section-title::after {
+  content: ''; flex-grow: 1; height: 3px;
+  background: linear-gradient(90deg, var(--primary), transparent);
+  border-radius: 2px; margin-left: 15px;
+}
 
 /* ГЛАВНЫЙ ЭКРАН */
-.hero {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  text-align: left;
-  gap: 40px;
-  padding: 40px 0;
-}
-.hero > div:first-child { flex: 1; }
-.hero h1 { font-size: 3.5rem; margin-bottom: 20px; }
-.hero p { font-size: 1.2rem; margin-bottom: 30px; }
-.hero img { max-width: 500px; height: auto; object-fit: contain; }
+.hero { display: flex; align-items: center; justify-content: space-between; gap: 40px; padding: 40px 0; }
+.hero-text { flex: 1; }
 
-h2 { font-size: 2rem; margin-bottom: 20px; position: relative; display: inline-block; }
-h2::after {
-  content: ''; position: absolute; left: 0; bottom: -6px;
-  width: 50px; height: 4px; background: linear-gradient(90deg, var(--accent), var(--cyan)); border-radius: 2px;
+.badge {
+  display: inline-block; padding: 6px 12px; background: rgba(0, 210, 255, 0.1);
+  color: var(--secondary); border: 1px solid var(--secondary);
+  border-radius: 20px; font-size: 0.85rem; font-weight: 800;
+  margin-bottom: 20px; text-transform: uppercase; box-shadow: 0 0 10px rgba(0,210,255,0.2);
 }
 
-/* СЕТКА 2 НА 2 */
+.hero h1 { font-size: 3.5rem; line-height: 1.2; margin-bottom: 20px; text-shadow: 0 0 20px rgba(255,255,255,0.1); }
+.hero p { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 30px; max-width: 500px; }
 
-
-.force-grid-2x2 article.card {
-  height: auto !important;
-  min-height: 0 !important;
-  aspect-ratio: auto !important;
-  margin: 0 !important;
-  padding: 25px !important;
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: flex-start !important;
-  background: var(--glass-bg) !important;
-  border: 1px solid var(--border) !important;
-  border-radius: 20px !important;
-  transition: all 0.3s;
+.hero-buttons { display: flex; gap: 15px; flex-wrap: wrap; }
+.btn {
+  display: inline-block; padding: 15px 30px; border-radius: 30px;
+  font-size: 1.1rem; font-weight: 900; text-transform: uppercase;
+  transition: all 0.3s; cursor: pointer; border: none; text-align: center;
 }
-.force-grid-2x2 article.card:hover { transform: translateY(-5px); border-color: var(--accent); }
-.card h3 { font-size: 1.3rem; color: #fff; margin-bottom: 10px; }
-.card p { margin-bottom: 15px; font-size: 0.95rem; }
-.card a { font-weight: bold; color: var(--cyan); text-decoration: none; margin-top: auto; display: inline-block; }
+.btn-primary {
+  background: linear-gradient(135deg, #ff7b00, #ff4d00);
+  color: #fff; box-shadow: 0 10px 20px rgba(255, 123, 0, 0.3);
+}
+.btn-primary:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 15px 30px rgba(255, 123, 0, 0.5); }
 
-/* КНОПКА ВСЕ ЛИЧНОСТИ */
+.btn-secondary { background: rgba(0, 210, 255, 0.1); color: var(--secondary); border: 2px solid var(--secondary); box-shadow: 0 0 15px rgba(0, 210, 255, 0.2); }
+.btn-secondary:hover { background: var(--secondary); color: #000; box-shadow: 0 0 25px rgba(0, 210, 255, 0.4); }
 
-.all-heroes-wrapper .timeline-more,
-.all-heroes-wrapper a {
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 15px !important;
-  width: 100% !important;
-  padding: 10px 15px !important;
-  min-height: 50px !important;
-  background: rgba(255, 183, 3, 0.05) !important;
-  border: 2px dashed var(--accent) !important;
-  border-radius: 15px !important;
-  color: var(--accent) !important;
-  font-weight: bold !important;
-  text-decoration: none !important;
-  box-sizing: border-box !important;
+.btn-outline { background: transparent; color: #fff; border: 2px solid var(--glass-border); }
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 20px rgba(255, 214, 10, 0.2); }
+
+.hero-image img {
+  max-width: 450px; filter: drop-shadow(0 20px 30px rgba(0,0,0,0.6));
+  animation: float 6s ease-in-out infinite;
 }
 
-/* СТИЛИ ДЛЯ КВИЗА И ДРУГИХ СТРАНИЦ */
-.quiz-wrapper { max-width: 800px; margin: 0 auto; background: var(--glass-bg); padding: 30px; border-radius: 20px; border: 1px solid var(--border); }
-.option-btn { display: block; width: 100%; padding: 15px 20px; margin-bottom: 15px; background: var(--bg-dark); color: var(--text); border: 2px solid var(--border); border-radius: 12px; font-size: 1.1rem; text-align: left; cursor: pointer; transition: all 0.3s; }
-.option-btn:hover:not(:disabled) { border-color: var(--accent); background: rgba(255, 183, 3, 0.1); }
-.option-btn.correct { background: rgba(40, 167, 69, 0.2); border-color: #28a745; color: #28a745; }
-.option-btn.wrong { background: rgba(220, 53, 69, 0.2); border-color: #dc3545; color: #dc3545; }
-
-
-
-
-
-
-.tabs { display: flex; gap: 10px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap; }
-.tab-btn { background: var(--glass-bg); color: var(--text); border: 2px solid var(--border); padding: 12px 25px; border-radius: 30px; cursor: pointer; transition: all 0.3s; font-size: 1rem; font-family: 'Russo One', sans-serif; }
-.tab-btn.active { background: var(--accent); color: var(--bg-dark); border-color: var(--accent); }
-.tech-panel { display: none; text-align: center; }
-.tech-panel.active { display: block; }
-
-.btn { display: inline-block !important; background: var(--accent) !important; color: var(--bg-dark) !important; padding: 15px 30px !important; border-radius: 30px !important; font-weight: bold !important; text-decoration: none !important; transition: all 0.3s !important; border: none !important; cursor: pointer !important; }
-
-@media (max-width: 900px) {
-  html { font-size: 18px; }
-  header { flex-direction: column; align-items: center; padding: 15px; }
-  main { padding: 20px 15px; }
-  .hero { flex-direction: column !important; text-align: center !important; }
-  .hero h1 { font-size: 2rem !important; }
-  .hero img { max-width: 80% !important; margin-top: 20px !important; }
-  
-}
-/* =========================================
-   ГАРАНТИРОВАННЫЙ ФИКС ДЛЯ ГЛАВНОЙ
-   ========================================= */
-#main-hero-section > div {
-  flex: 1 !important;
-}
-#main-hero-section > img {
-  max-width: 450px !important;
-  height: auto !important;
-}
-
-.force-grid-2x2 {
-  display: grid !important;
-  grid-template-columns: repeat(2, 1fr) !important;
-  gap: 20px !important;
-  max-width: 800px !important;
-  margin: 0 auto 30px auto !important;
-  align-items: start !important;
-}
-
-.force-grid-2x2 article.card {
-  margin: 0 !important;
-  height: auto !important;
-  display: flex !important;
-  flex-direction: column !important;
-}
-
-.all-heroes-wrapper {
-  display: flex !important;
-  justify-content: center !important;
-  max-width: 800px !important;
-  margin: 0 auto 50px auto !important;
-}
-
-.all-heroes-wrapper a, 
-.all-heroes-wrapper 
-/* =========================================
-   ВОССТАНОВЛЕНИЕ ВЫПАДАЮЩИХ МЕНЮ В ШАПКЕ
-   ========================================= */
-.dropdown { position: relative; display: inline-block; }
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background: rgba(15, 23, 42, 0.98);
-  min-width: 200px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  z-index: 200;
-  top: 100%;
-  left: 0;
-  margin-top: 8px;
-  padding: 5px 0;
-}
-
-.dropdown:hover .dropdown-content,
-.dropdown:focus-within .dropdown-content {
-  display: block;
-}
-
-.dropdown-content a {
-  display: block;
-  padding: 10px 20px;
-  color: var(--text);
-  text-decoration: none;
-  font-size: 0.95rem;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-
-.dropdown-content a:hover {
-  background: rgba(255, 183, 3, 0.15);
-  color: var(--accent);
-}
-
-/* Фикс поиска в шапке */
-#searchContainer {
-  position: relative;
-  margin-right: 15px;
-}
-#searchInput {
-  padding: 8px 15px;
-  border-radius: 20px;
-  border: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--text);
-  outline: none;
-  width: 180px;
-}
-
-/* =========================================
-   ВОССТАНОВЛЕНИЕ ПОДВАЛА (FOOTER)
-   ========================================= */
-footer {
-  padding: 40px 20px;
-  text-align: center;
-  color: var(--text-muted);
-  border-top: 1px solid var(--border);
-  margin-top: 60px;
-  background: rgba(5, 8, 20, 0.8);
-  position: relative;
-  z-index: 10;
-}
-footer p { font-size: 1rem; margin: 0; }
-footer a { color: var(--accent); font-weight: 600; text-decoration: none; transition: color 0.3s; }
-footer a:hover { color: var(--cyan); text-decoration: underline; }
-
-/* =========================================
-   СТИЛИ ДЛЯ КНОПКИ "ВСЕ ЛИЧНОСТИ"
-   ========================================= */
-.all-heroes-wrapper {
-  display: flex !important;
-  justify-content: center !important;
-  max-width: 800px !important;
-  margin: 0 auto 50px auto !important;
-  width: 100% !important;
-}
-.all-heroes-wrapper 
-.all-heroes-wrapper .timeline-more:hover {
-  background: var(--accent) !important;
-  color: var(--bg-dark) !important;
-}
-/* =========================================
-   ВОССТАНОВЛЕНИЕ ЛЕНТЫ ВРЕМЕНИ
-   ========================================= */
-.timeline-wrapper { 
-  position: relative; 
-  padding: 20px 0; 
-  margin-bottom: 40px; 
-}
-
-.timeline {
-  display: flex; 
-  gap: 20px; 
-  overflow-x: auto; 
-  padding-bottom: 20px;
-  scroll-snap-type: x mandatory; 
-  position: relative; 
-  z-index: 1;
-  scrollbar-width: thin; 
-  scrollbar-color: var(--accent) var(--bg-dark);
-}
-
+/* ЛЕНТА ВРЕМЕНИ */
+.timeline-wrapper { overflow-x: auto; padding-bottom: 20px; scrollbar-width: thin; scrollbar-color: var(--primary) transparent; }
+.timeline { display: flex; gap: 20px; min-width: max-content; }
 .timeline-item {
-  flex: 0 0 280px; 
-  scroll-snap-align: start; 
-  padding: 24px;
-  background: var(--glass-bg); 
-  backdrop-filter: blur(10px); 
-  border: 1px solid var(--border); 
-  border-top: 4px solid var(--accent);
-  border-radius: 16px; 
-  transition: all 0.3s ease;
-  text-decoration: none; 
-  display: flex; 
-  flex-direction: column; 
-  color: var(--text); 
-  position: relative;
+  flex: 0 0 220px; background: var(--glass-bg); padding: 25px;
+  border-radius: 20px; border: 2px solid var(--glass-border);
+  transition: all 0.3s; display: flex; flex-direction: column; position: relative; overflow: hidden;
+  backdrop-filter: blur(10px);
 }
-
-.timeline-item:hover { 
-  border-color: var(--cyan); 
-  box-shadow: 0 10px 30px rgba(0, 240, 255, 0.2); 
-  transform: translateY(-8px); 
-  z-index: 2; 
+.timeline-item::before {
+  content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+  background: var(--secondary);
 }
+.timeline-item:hover { border-color: var(--secondary); transform: translateY(-5px); background: rgba(30, 41, 59, 0.9); box-shadow: 0 0 20px rgba(0, 210, 255, 0.2); }
+.year { font-size: 2.5rem; color: var(--accent); display: block; margin-bottom: 10px; text-shadow: 0 0 10px rgba(255, 214, 10, 0.3); }
+.timeline-item p { color: #fff; font-weight: 800; font-size: 1.1rem; }
 
-.year { 
-  font-size: 2.2rem; 
-  font-weight: 900; 
-  background: linear-gradient(90deg, var(--cyan), var(--accent));
-  -webkit-background-clip: text; 
-  -webkit-text-fill-color: transparent;
-  display: block; 
-  margin-bottom: 10px; 
-  font-family: 'Russo One', sans-serif;
+/* КАРТОЧКИ ЛИЧНОСТЕЙ */
+.cards-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px; margin-bottom: 40px;
 }
-
-.timeline-item p { 
-  font-size: 1rem; 
-  color: var(--text); 
-  margin: 0; 
-  font-weight: 500; 
-  line-height: 1.5; 
+.card {
+  background: var(--glass-bg); padding: 30px; border-radius: 24px;
+  border: 1px solid var(--glass-border); transition: all 0.3s;
+  display: flex; flex-direction: column; position: relative;
+  backdrop-filter: blur(10px);
 }
-
-/* Кнопка "Все личности" в ленте */
-.timeline-more {
-  flex: 0 0 160px; 
-  scroll-snap-align: start; 
-  display: flex; 
-  flex-direction: column;
-  justify-content: center; 
-  align-items: center; 
-  background: rgba(255, 183, 3, 0.05);
-  border: 2px dashed var(--accent); 
-  border-radius: 16px; 
-  text-decoration: none;
-  color: var(--accent); 
-  font-weight: 700; 
-  font-family: 'Russo One', sans-serif; 
-  font-size: 1rem; 
-  transition: all 0.3s ease;
+.card:hover {
+  transform: translateY(-8px); border-color: var(--secondary);
+  box-shadow: 0 15px 35px rgba(0, 210, 255, 0.2), inset 0 0 20px rgba(0, 210, 255, 0.05);
 }
-
-.timeline-more:hover { 
-  background: var(--accent); 
-  color: var(--bg-dark); 
-  border-style: solid; 
-  transform: translateY(-8px); 
+.card-icon { font-size: 2.5rem; margin-bottom: 15px; filter: drop-shadow(0 0 10px rgba(255,255,255,0.2)); }
+.card h3 { font-size: 1.5rem; color: #fff; margin-bottom: 15px; }
+.card p { color: var(--text-muted); font-size: 1rem; margin-bottom: 25px; flex-grow: 1; }
+.card-link {
+  color: var(--secondary); font-weight: 900; font-size: 1.1rem;
+  display: inline-flex; align-items: center; gap: 5px; transition: all 0.2s;
 }
+.card-link:hover { gap: 10px; color: var(--accent); text-shadow: 0 0 10px rgba(255, 214, 10, 0.4); }
 
+.all-heroes-wrapper { display: flex; justify-content: center; margin: 40px 0 60px; }
+
+/* ПОДВАЛ */
+footer {
+  text-align: center; padding: 40px 20px; border-top: 1px solid var(--glass-border);
+  background: rgba(5, 8, 20, 0.9); color: var(--text-muted); margin-top: 60px;
+}
+.footer-content p { margin-bottom: 8px; font-size: 1rem; }
+.footer-content strong { color: #fff; font-size: 1.1rem; }
+.sources { font-size: 0.9rem !important; margin-top: 15px; opacity: 0.7; }
+.sources a { color: var(--secondary); text-decoration: underline; }
+.sources a:hover { color: var(--primary); }
+
+/* АНИМАЦИИ */
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* МОБИЛЬНАЯ ВЕРСИЯ */
+@media (max-width: 900px) {
+  header { flex-direction: column; padding: 15px; }
+  nav { justify-content: center; width: 100%; }
+  .hero { flex-direction: column-reverse; text-align: center; padding: 20px 0; }
+  .hero h1 { font-size: 2.2rem; }
+  .hero p { margin: 0 auto 30px auto; }
+  .hero-buttons { justify-content: center; }
+  .section-title { font-size: 1.8rem; justify-content: center; }
+  .section-title::after { display: none; }
+  .cards-grid { grid-template-columns: 1fr; }
+}
 /* =========================================
-   НИЖНЯЯ КНОПКА "ВСЕ ЛИЧНОСТИ" (ПОД КАРТОЧКАМИ)
+   ГЛОБАЛЬНЫЕ ИСПРАВЛЕНИЯ (15 ПУНКТОВ)
    ========================================= */
-.all-heroes-wrapper {
-  display: flex !important;
-  justify-content: center !important;
-  max-width: 800px !important;
-  margin: 0 auto 50px auto !important;
-  width: 100% !important;
-}
+::selection { background: var(--primary); color: #fff; }
 
-.all-heroes-wrapper a {
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 15px !important;
-  width: 100% !important;
-  padding: 15px 20px !important;
-  background: rgba(255, 183, 3, 0.05) !important;
-  border: 2px dashed var(--accent) !important;
-  border-radius: 15px !important;
-  color: var(--accent) !important;
-  font-weight: bold !important;
-  text-decoration: none !important;
-  box-sizing: border-box !important;
+/* 1 и 2: Логотипы в шапке */
+.logo-container { display: flex; align-items: center; gap: 15px; }
+.school-logo { height: 50px; width: auto; filter: drop-shadow(0 0 10px rgba(255,255,255,0.3)); }
+
+/* 4: Фикс выпадающего меню (чтобы не перекрывалось) */
+header { z-index: 1000 !important; }
+.dropdown { position: relative; z-index: 1001; }
+.dropdown-content { z-index: 1002 !important; }
+
+/* 5: Дизайн поиска */
+#searchContainer { position: relative; }
+
+#searchInput:focus { background: rgba(255, 255, 255, 0.15); box-shadow: 0 0 15px rgba(0, 210, 255, 0.3); }
+#searchInput::placeholder { color: #cbd5e1; }
+
+/* 3: Возвращаем стили кнопке в ленте */
+.timeline-more {
+  flex: 0 0 150px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: rgba(0, 210, 255, 0.1); border: 2px dashed var(--secondary);
+  border-radius: 20px; text-decoration: none; color: var(--secondary);
+  font-weight: 800; transition: all 0.3s;
+}
+.timeline-more:hover { background: var(--secondary); color: #000; }
+.timeline-more .arrow { font-size: 2rem; margin-bottom: 5px; }
+
+/* 6 и 11: Исправляем цвета кнопок (Личности, Игры) */
+.btn, .card-link, .option-btn { color: #fff !important; }
+.card-link:hover { color: var(--accent) !important; }
+
+/* 7: Словарь (выделение блоков) */
+details {
+  background: rgba(15, 23, 42, 0.7); border: 1px solid var(--glass-border);
+  padding: 15px; border-radius: 12px; margin-bottom: 10px; transition: all 0.3s;
+}
+details:hover { border-color: var(--secondary); }
+summary { cursor: pointer; font-weight: 800; font-size: 1.1rem; color: var(--secondary); }
+
+/* 8 и 9: Игра Ракета (фон и дизайн) */
+.game-container { 
+  background: #000 !important; 
+  border: 2px solid var(--secondary); 
+  box-shadow: 0 0 30px rgba(0, 210, 255, 0.2) !important;
+  border-radius: 15px !important; 
+}
+#rocket { filter: drop-shadow(0 0 10px var(--accent)); }
+
+/* 10: Слайдеры (Авиаконструктор) */
+input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
+input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 8px; background: rgba(255,255,255,0.2); border-radius: 5px; border: 1px solid var(--glass-border); }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 22px; width: 22px; border-radius: 50%; background: var(--secondary); margin-top: -8px; cursor: pointer; box-shadow: 0 0 10px var(--secondary); }
+
+/* 12: Квиз (Разделение вариантов) */
+.option-btn { 
+  display: block; width: 100%; margin-bottom: 15px; padding: 15px 20px; 
+  background: rgba(255, 255, 255, 0.05) !important; 
+  border: 2px solid var(--glass-border) !important; 
+  border-radius: 12px !important; font-size: 1.1rem; text-align: left; transition: all 0.3s;
+}
+.option-btn:hover { border-color: var(--primary) !important; background: rgba(255, 123, 0, 0.1) !important; }
+
+/* 13: Текст в конце квиза */
+.quiz-result { color: var(--accent) !important; text-shadow: 0 0 15px rgba(255, 214, 10, 0.5); font-size: 2rem; font-weight: 900; font-family: 'Russo One', sans-serif; }
+
+/* 15: Улучшение читаемости текста */
+p, li { line-height: 1.7 !important; font-size: 1.05rem !important; }
+/* =========================================
+   ТОТАЛЬНЫЕ ИСПРАВЛЕНИЯ (15 ПУНКТОВ)
+   ========================================= */
+::selection { background: var(--primary); color: #fff; }
+header { z-index: 9999 !important; }
+
+/* Фикс кликов в меню */
+.dropdown { position: relative; z-index: 10000; }
+.dropdown-content { z-index: 10001 !important; }
+nav a { pointer-events: auto !important; position: relative; z-index: 10002; }
+
+/* Дизайн поиска */
+#searchContainer { position: relative; }
+#searchInput {
+  background: rgba(255, 255, 255, 0.1); border: 2px solid var(--secondary);
+  color: #fff; border-radius: 20px; padding: 10px 20px; outline: none; width: 220px; transition: all 0.3s;
+}
+#searchInput:focus { box-shadow: 0 0 15px rgba(0, 210, 255, 0.4); }
+
+/* Кнопки "Читать" в личностях и играх */
+.card-link, .btn-primary, .btn-secondary { 
+  color: #fff !important; 
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+.card-link { color: var(--secondary) !important; text-shadow: none; }
+.card-link:hover { color: var(--accent) !important; }
+
+/* Словарь (Рамки) */
+details {
+  background: rgba(15, 23, 42, 0.8) !important; border: 2px solid var(--glass-border) !important;
+  border-radius: 12px !important; margin-bottom: 15px !important; padding: 10px 15px !important;
   transition: all 0.3s !important;
 }
+details[open] { border-color: var(--secondary) !important; box-shadow: 0 0 15px rgba(0,210,255,0.2) !important; }
+summary { cursor: pointer; font-weight: 800; color: var(--secondary); font-size: 1.1rem; outline: none; }
 
-.all-heroes-wrapper a:hover {
-  background: var(--accent) !important;
-  color: var(--bg-dark) !important;
+/* Игра Ракета (Фон и кнопка "Принять задание") */
+.game-container { 
+  background: #020617 !important; /* Темный фон для контраста */
+  border: 3px solid var(--secondary) !important; 
+  box-shadow: 0 0 40px rgba(0, 210, 255, 0.2) !important;
+  border-radius: 20px !important;
+}
+.game-container button, #startGameBtn {
+  background: var(--primary) !important; color: #fff !important;
+  border: none !important; padding: 15px 30px !important; border-radius: 30px !important;
+  font-family: 'Russo One', sans-serif !important; font-size: 1.2rem !important;
+  box-shadow: 0 5px 15px rgba(255, 123, 0, 0.4) !important; cursor: pointer !important;
+}
+.game-container button:hover { transform: scale(1.05); }
+
+/* Убираем желтую обводку ракеты (12 пункт) */
+#rocket { filter: none !important; border: none !important; }
+
+/* Ползунки в Авиаконструкторе (10 пункт) */
+input[type=range] {
+  -webkit-appearance: none; width: 100%; background: transparent; margin: 10px 0;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%; height: 10px; background: rgba(255,255,255,0.15); border-radius: 5px;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; height: 24px; width: 24px; border-radius: 50%;
+  background: var(--accent); margin-top: -7px; cursor: pointer; box-shadow: 0 0 10px var(--accent);
+}
+
+/* Квиз (Рамки 50/50 и разделение вариантов) */
+.lifeline-btn { border: 2px solid var(--secondary) !important; border-radius: 10px !important; padding: 8px 15px !important; background: transparent !important; color: var(--secondary) !important; font-weight: bold; }
+.option-btn { 
+  display: block !important; width: 100% !important; margin-bottom: 15px !important; padding: 15px 20px !important; 
+  background: rgba(255, 255, 255, 0.05) !important; border: 2px solid var(--glass-border) !important; 
+  border-radius: 12px !important; font-size: 1.1rem !important; text-align: left !important; transition: all 0.3s !important;
+}
+.option-btn:hover { border-color: var(--primary) !important; background: rgba(255, 123, 0, 0.1) !important; }
+
+/* Текст в конце квиза (13) */
+.quiz-result { color: var(--accent) !important; text-shadow: 0 0 15px rgba(255, 214, 10, 0.5) !important; font-size: 2rem !important; font-weight: 900 !important; font-family: 'Russo One', sans-serif !important; }
+
+/* Текст на странице Подготовки (8 пункт) */
+.training-hero-text, .hero p {
+  font-size: 1.3rem !important; color: #e2e8f0 !important; line-height: 1.8 !important;
 }
